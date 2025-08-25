@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Traductor Nicalex</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      text-align: center;
+      padding: 20px;
+    }
+    textarea {
+      width: 90%;
+      height: 100px;
+      margin: 10px 0;
+      border-radius: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Traductor Nicalex</h1>
+  <p>Escribe en español y tradúcelo al idioma secreto 😏</p>
+  
+  <textarea id="input" placeholder="Escribe aquí en español..."></textarea><br>
+  <button onclick="toNicalex()">➡️ Traducir a Nicalex</button>
+  <button onclick="toSpanish()">⬅️ Traducir a Español</button><br>
+  <textarea id="output" placeholder="Aquí aparece la traducción..."></textarea>
+
+  <script>
+    const dict = {
+      "a":"ka","b":"zo","c":"mi","d":"ra","e":"lu","f":"ne","g":"ti","h":"ba","i":"su","j":"do","k":"fe","l":"gi","m":"ha","n":"po","ñ":"ny","o":"ke","p":"xi","q":"mo","r":"ta","s":"vi","t":"ze","u":"jo","v":"qu","w":"ya","x":"wo","y":"ge","z":"fu"
+    };
+
+    const nums = {
+      "0":"zor","1":"nav","2":"din","3":"tor","4":"rum","5":"mel","6":"sax","7":"pir","8":"lom","9":"kan"
+    };
+
+    function toNicalex(){
+      let text = document.getElementById("input").value.toLowerCase();
+      let result = "";
+      for (let char of text){
+        if(dict[char]) result += dict[char];
+        else if(nums[char]) result += nums[char];
+        else result += char; // espacios y comas se mantienen
+      }
+      document.getElementById("output").value = result;
+    }
+
+    function toSpanish(){
+      let text = document.getElementById("input").value.toLowerCase();
+      let result = text;
+      // Números primero
+      for (let [key,val] of Object.entries(nums)){
+        result = result.split(val).join(key);
+      }
+      // Letras
+      for (let [key,val] of Object.entries(dict)){
+        result = result.split(val).join(key);
+      }
+      document.getElementById("output").value = result;
+    }
+  </script>
+</body>
+  </html>
