@@ -2,13 +2,13 @@
 
 // ⚠️ CAMBIA ESTE OBJETO POR TU CONFIG DE FIREBASE (Project settings → General → Your apps → Web app)
 var firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://TU_PROJECT_ID-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "TU_PROJECT_ID",
-  storageBucket: "TU_PROJECT_ID.appspot.com",
-  messagingSenderId: "XXXXXXXXXXXX",
-  appId: "1:XXXXXXXXXXXX:web:XXXXXXXXXXXXXX"
+  apiKey: "AIzaSyDve8JRi4IfQ_R3odAfhfalKLy6N_u8Br4",
+  authDomain: "chat-261ba.firebaseapp.com",
+  databaseURL: "https://chat-261ba-default-rtdb.firebaseio.com",
+  projectId: "chat-261ba",
+  storageBucket: "chat-261ba.firebasestorage.app",
+  messagingSenderId: "532480688448",
+  appId: "1:532480688448:web:fa038dd7c8b2118fa7baa5"
 };
 
 // ⚠️ La misma contraseña que en index.html
