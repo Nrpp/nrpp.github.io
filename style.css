@@ -1,0 +1,7 @@
+/* style.css */
+* { box-sizing: border-box; }
+body { background: #ffffff; color: #222; }
+a { color: #3366cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; border: 1px solid #ccc; border-radius: 8px; background: #f5f5f5; }
+input { border: 1px solid #ccc; border-radius: 8px; }
