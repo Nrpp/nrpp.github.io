@@ -57,7 +57,9 @@ function startChat(nick){
   }
 
   $("nickLabel").innerHTML = "👤 " + nick;
+  $("roomLabel").textContent = ROOM_ID;
 
+  
   // Iniciar sesión anónima (necesario por reglas de escritura)
   firebase.auth().signInAnonymously().catch(function(error){
     alert("Error de autenticación: " + error.message);
