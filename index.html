@@ -1,0 +1,23 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Privado</title>
+</head>
+<body>
+  <h2>🔑 Acceso al chat</h2>
+  <input type="password" id="password" placeholder="Introduce la contraseña">
+  <button onclick="login()">Entrar</button>
+
+  <script>
+    function login() {
+      let pass = document.getElementById("password").value;
+      if (pass === "mipass123") { // cambia la contraseña aquí
+        window.location.href = "chat.html";
+      } else {
+        alert("Contraseña incorrecta 🚫");
+      }
+    }
+  </script>
+</body>
+</html>
