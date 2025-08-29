@@ -15,7 +15,15 @@ var firebaseConfig = {
 var PASSWORD = "mipass123";
 
 // Id de sala (puedes tener varias salas si quieres)
-var ROOM_ID = "sala1";
+// var ROOM_ID = "sala1";
+// Lee la sala de la URL (?room=nombre)
+// Si no hay nada, pone "sala1" por defecto
+function getRoomId() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get("room") || "sala1";
+}
+
+var ROOM_ID = getRoomId();
 
 // Límite de mensajes que cargamos (historial visible)
 var MESSAGE_LIMIT = 200;
