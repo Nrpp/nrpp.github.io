@@ -1,6 +1,6 @@
 /* chat.js */
 
-// ⚠️ CAMBIA ESTE OBJETO POR TU CONFIG DE FIREBASE (Project settings → General → Your apps → Web app)
+// ⚠️ CAMBIA ESTE OBJETO POR TU CONFIG DE FIREBASE
 var firebaseConfig = {
   apiKey: "AIzaSyDve8JRi4IfQ_R3odAfhfalKLy6N_u8Br4",
   authDomain: "chat-261ba.firebaseapp.com",
@@ -14,23 +14,17 @@ var firebaseConfig = {
 // ⚠️ La misma contraseña que en index.html
 var PASSWORD = "mipass123";
 
-// Id de sala (puedes tener varias salas si quieres)
-// var ROOM_ID = "sala1";
-// Lee la sala de la URL (?room=nombre)
-// Si no hay nada, pone "sala1" por defecto
 function getRoomId() {
   var params = new URLSearchParams(window.location.search);
   return params.get("room") || "sala1";
 }
-
 var ROOM_ID = getRoomId();
 
-// Límite de mensajes que cargamos (historial visible)
 var MESSAGE_LIMIT = 200;
 
 function $(id){ return document.getElementById(id); }
 
-// Comprobar acceso por contraseña desde sessionStorage
+// --- comprobar acceso ---
 function checkAccess(){
   var pass = null, nick = null;
   try {
@@ -39,7 +33,6 @@ function checkAccess(){
   } catch(e){}
 
   if (!pass || pass !== PASSWORD) {
-    // Si no hay pass o no coincide, volvemos a la portada
     window.location.href = "index.html";
     return null;
   }
@@ -50,7 +43,7 @@ function checkAccess(){
   return { nick: nick };
 }
 
-// Inicia Firebase, auth anónima y listeners
+// --- iniciar chat ---
 function startChat(nick){
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -59,8 +52,6 @@ function startChat(nick){
   $("nickLabel").innerHTML = "👤 " + nick;
   $("roomLabel").textContent = ROOM_ID;
 
-  
-  // Iniciar sesión anónima (necesario por reglas de escritura)
   firebase.auth().signInAnonymously().catch(function(error){
     alert("Error de autenticación: " + error.message);
   });
@@ -68,7 +59,22 @@ function startChat(nick){
   var db = firebase.database();
   var messagesRef = db.ref("rooms/" + ROOM_ID + "/messages");
 
-  // Mostrar los últimos N mensajes y escuchar nuevos
+  // <<<< Si es admin, mostrar botón de borrar chat
+  if (nick.toLowerCase() === "admin") {
+    var clearBtn = $("clearBtn");
+    if (clearBtn) {
+      clearBtn.style.display = "inline-block";
+      clearBtn.addEventListener("click", function(){
+        if (confirm("¿Seguro que quieres borrar todos los mensajes? 🚨")) {
+          messagesRef.remove()
+            .then(() => alert("Chat borrado ✅"))
+            .catch(err => alert("Error: " + err));
+        }
+      });
+    }
+  }
+
+  // Escuchar mensajes
   messagesRef
     .orderByChild("ts")
     .limitToLast(MESSAGE_LIMIT)
@@ -77,19 +83,16 @@ function startChat(nick){
       appendMessage(msg, nick);
     });
 
-  // Enviar al pulsar botón
   $("sendBtn").addEventListener("click", function(){
     sendCurrentMessage(messagesRef, nick);
   });
 
-  // Enviar con Enter
   $("msgInput").addEventListener("keypress", function(e){
     if (e.keyCode === 13) {
       sendCurrentMessage(messagesRef, nick);
     }
   });
 
-  // Auto focus para Kindle si es posible
   try { $("msgInput").focus(); } catch(e){}
 }
 
@@ -97,7 +100,6 @@ function sendCurrentMessage(messagesRef, nick){
   var text = $("msgInput").value.replace(/^\s+|\s+$/g, '');
   if (!text) return;
 
-  // Antiflood básico: limitar a 1 mensaje cada 500ms
   if (window.__lastSendTs && Date.now() - window.__lastSendTs < 500) {
     return;
   }
@@ -131,25 +133,21 @@ function appendMessage(msg, myNick){
   div.appendChild(meta);
   div.appendChild(body);
   box.appendChild(div);
-
-  // Auto-scroll
   box.scrollTop = box.scrollHeight + 1000;
 }
 
 function formatTime(d){
-  // hh:mm dd/mm
   function pad(n){ return (n<10?"0":"") + n; }
   return pad(d.getHours()) + ":" + pad(d.getMinutes()) + " " +
          pad(d.getDate()) + "/" + pad(d.getMonth()+1);
 }
 
-// ---- bootstrap ----
+// --- bootstrap ---
 var auth = checkAccess();
 if (auth) {
-  // Esperar a que el DOM esté del todo
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function(){ startChat(auth.nick); });
   } else {
     startChat(auth.nick);
   }
-}
+    }
