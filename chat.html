@@ -19,6 +19,11 @@
     .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .small { font-size: 12px; opacity: 0.7; }
     .admin-btns { display: none; margin-left: 10px; }
+
+    /* notice */
+    #notice { margin: 6px 0; font-size: 13px; color: #444; min-height: 18px; }
+
+    /* modal sin alert/confirm */
     .modal {
       display: none;
       position: fixed; top:0; left:0; right:0; bottom:0;
@@ -29,7 +34,7 @@
       background: #fff; padding: 16px; border-radius: 8px;
       text-align: center; max-width: 300px;
     }
-    .modal-content button { margin: 8px; }
+    .modal-content button { margin: 8px; padding: 8px 14px; }
   </style>
 </head>
 <body>
@@ -42,6 +47,9 @@
       </span>
     </div>
   </div>
+
+  <!-- Avisos (reemplaza alert()) -->
+  <div id="notice" aria-live="polite"></div>
 
   <div id="messages" class="chat-box" aria-live="polite"></div>
 
@@ -59,7 +67,7 @@
     </div>
   </div>
 
-  <!-- Firebase v8 (más compatible con navegadores antiguos como el Kindle) -->
+  <!-- Firebase v8 (compatible con Kindle) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -68,17 +76,17 @@
   <script src="chat.js"></script>
 
   <script>
-    // Mostrar botón admin solo si corresponde
+    // Mostrar botón admin solo si corresponde (lo pusimos en index.html)
     var isAdmin = sessionStorage.getItem("is_admin") === "1";
     if (isAdmin) {
       document.getElementById("adminBtns").style.display = "inline";
     }
 
-    // Modal confirmación borrar
+    // Modal y botones (sin usar alert/confirm)
     const modal = document.getElementById("modal");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
     const deleteBtn = document.getElementById("deleteBtn");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
     if (deleteBtn) {
       deleteBtn.onclick = () => { modal.style.display = "flex"; };
@@ -88,10 +96,23 @@
     }
     if (yesBtn) {
       yesBtn.onclick = () => {
-        if (window.database && typeof getRoomId === "function") {
-          database.ref("rooms/" + getRoomId() + "/messages").remove();
-        }
         modal.style.display = "none";
+        // Llamamos a la función global deleteChat definida en chat.js
+        if (typeof window.deleteChat === "function") {
+          window.deleteChat();
+        } else if (window.database && typeof getRoomId === "function") {
+          // fallback si por alguna razón chat.js no cargó correctamente
+          window.database.ref("rooms/" + getRoomId() + "/messages").remove()
+            .then(() => {
+              document.getElementById("messages").innerHTML = "";
+              document.getElementById("notice").textContent = "Chat borrado ✅";
+            })
+            .catch(err => {
+              document.getElementById("notice").textContent = "Error al borrar: " + err;
+            });
+        } else {
+          document.getElementById("notice").textContent = "No se pudo borrar (no conectado)";
+        }
       };
     }
   </script>
