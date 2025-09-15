@@ -1,6 +1,6 @@
 /* chat.js */
 
-// ⚠️ CAMBIA ESTE OBJETO POR TU CONFIG DE FIREBASE
+// ⚠️ TU CONFIG DE FIREBASE (Project settings → Web app)
 var firebaseConfig = {
   apiKey: "AIzaSyDve8JRi4IfQ_R3odAfhfalKLy6N_u8Br4",
   authDomain: "chat-261ba.firebaseapp.com",
@@ -11,8 +11,9 @@ var firebaseConfig = {
   appId: "1:532480688448:web:fa038dd7c8b2118fa7baa5"
 };
 
-// ⚠️ La misma contraseña que en index.html
+// CONTRASEÑAS (deben coincidir con index.html)
 var PASSWORD = "mipass123";
+var ADMIN_PASS = "adminpass123";
 
 function getRoomId() {
   var params = new URLSearchParams(window.location.search);
@@ -21,10 +22,24 @@ function getRoomId() {
 var ROOM_ID = getRoomId();
 
 var MESSAGE_LIMIT = 200;
-
 function $(id){ return document.getElementById(id); }
 
-// --- comprobar acceso ---
+// Mostrar avisos en la página en vez de alert()
+function showNotice(msg, timeoutMs) {
+  try {
+    var n = $("notice");
+    if (n) {
+      n.textContent = msg;
+      if (timeoutMs) setTimeout(function(){
+        if (n.textContent === msg) n.textContent = "";
+      }, timeoutMs);
+    } else {
+      console.log("NOTICE:", msg);
+    }
+  } catch(e) { console.log(msg); }
+}
+
+// Comprobar acceso: aceptamos contraseña de sala O contraseña de admin
 function checkAccess(){
   var pass = null, nick = null;
   try {
@@ -32,7 +47,12 @@ function checkAccess(){
     nick = sessionStorage.getItem("chat_nick");
   } catch(e){}
 
-  if (!pass || pass !== PASSWORD) {
+  if (!pass) {
+    window.location.href = "index.html";
+    return null;
+  }
+  // ahora aceptamos admin también
+  if (pass !== PASSWORD && pass !== ADMIN_PASS) {
     window.location.href = "index.html";
     return null;
   }
@@ -40,10 +60,12 @@ function checkAccess(){
     window.location.href = "index.html";
     return null;
   }
-  return { nick: nick };
+  return { nick: nick, isAdmin: pass === ADMIN_PASS };
 }
 
-// --- iniciar chat ---
+var messagesRefGlobal = null;
+
+// Inicia Firebase, auth anónima y listeners
 function startChat(nick){
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -52,30 +74,20 @@ function startChat(nick){
   $("nickLabel").innerHTML = "👤 " + nick;
   $("roomLabel").textContent = ROOM_ID;
 
+  // iniciar auth anónima
   firebase.auth().signInAnonymously().catch(function(error){
-    alert("Error de autenticación: " + error.message);
+    showNotice("Error de autenticación: " + error.message, 5000);
   });
 
   var db = firebase.database();
-  var messagesRef = db.ref("rooms/" + ROOM_ID + "/messages");
+  // Exponer db globalmente para el fallback del modal
+  window.database = db;
 
-  // <<<< Si es admin, mostrar botón de borrar chat
-  if (nick.toLowerCase() === "admin") {
-    var clearBtn = $("clearBtn");
-    if (clearBtn) {
-      clearBtn.style.display = "inline-block";
-      clearBtn.addEventListener("click", function(){
-        if (confirm("¿Seguro que quieres borrar todos los mensajes? 🚨")) {
-          messagesRef.remove()
-            .then(() => alert("Chat borrado ✅"))
-            .catch(err => alert("Error: " + err));
-        }
-      });
-    }
-  }
+  // referencia a mensajes
+  messagesRefGlobal = db.ref("rooms/" + ROOM_ID + "/messages");
 
-  // Escuchar mensajes
-  messagesRef
+  // Mostrar los últimos N mensajes y escuchar nuevos
+  messagesRefGlobal
     .orderByChild("ts")
     .limitToLast(MESSAGE_LIMIT)
     .on("child_added", function(snap){
@@ -83,23 +95,51 @@ function startChat(nick){
       appendMessage(msg, nick);
     });
 
+  // Si se borra un child - recargamos la lista (para mantener UI consistente)
+  messagesRefGlobal.on("child_removed", function(){
+    $("messages").innerHTML = "";
+    // volver a cargar los que quedan (si hay)
+    messagesRefGlobal.orderByChild("ts").limitToLast(MESSAGE_LIMIT).once("value", function(snapshot){
+      snapshot.forEach(function(childSnap){
+        appendMessage(childSnap.val(), nick);
+      });
+    });
+  });
+
   $("sendBtn").addEventListener("click", function(){
-    sendCurrentMessage(messagesRef, nick);
+    sendCurrentMessage(messagesRefGlobal, nick);
   });
 
   $("msgInput").addEventListener("keypress", function(e){
     if (e.keyCode === 13) {
-      sendCurrentMessage(messagesRef, nick);
+      sendCurrentMessage(messagesRefGlobal, nick);
     }
   });
 
   try { $("msgInput").focus(); } catch(e){}
 }
 
+// Función pública para borrar chat (la invoca el modal)
+window.deleteChat = function(){
+  if (!messagesRefGlobal) {
+    showNotice("No conectado a la base de datos", 4000);
+    return;
+  }
+  messagesRefGlobal.remove()
+    .then(function(){
+      $("messages").innerHTML = "";
+      showNotice("Chat borrado ✅", 4000);
+    })
+    .catch(function(err){
+      showNotice("Error al borrar: " + (err && err.message ? err.message : err), 6000);
+    });
+};
+
 function sendCurrentMessage(messagesRef, nick){
   var text = $("msgInput").value.replace(/^\s+|\s+$/g, '');
   if (!text) return;
 
+  // Antiflood básico: limitar a 1 mensaje cada 500ms
   if (window.__lastSendTs && Date.now() - window.__lastSendTs < 500) {
     return;
   }
@@ -113,7 +153,7 @@ function sendCurrentMessage(messagesRef, nick){
 
   messagesRef.push(msg, function(err){
     if (err) {
-      alert("No se pudo enviar: " + err.message);
+      showNotice("No se pudo enviar: " + err.message, 4000);
     } else {
       $("msgInput").value = "";
     }
@@ -133,7 +173,9 @@ function appendMessage(msg, myNick){
   div.appendChild(meta);
   div.appendChild(body);
   box.appendChild(div);
-  box.scrollTop = box.scrollHeight + 1000;
+
+  // Auto-scroll
+  box.scrollTop = box.scrollHeight;
 }
 
 function formatTime(d){
@@ -142,7 +184,7 @@ function formatTime(d){
          pad(d.getDate()) + "/" + pad(d.getMonth()+1);
 }
 
-// --- bootstrap ---
+// ---- bootstrap ----
 var auth = checkAccess();
 if (auth) {
   if (document.readyState === "loading") {
@@ -150,4 +192,4 @@ if (auth) {
   } else {
     startChat(auth.nick);
   }
-    }
+}
