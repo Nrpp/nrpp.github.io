@@ -4,10 +4,8 @@
   <meta charset="utf-8">
   <title>Acceso al Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Evitar caché agresivo del Kindle -->
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="stylesheet" href="style.css">
   <style>
     body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 16px; }
     .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
@@ -29,9 +27,8 @@
   </div>
 
   <script>
-    // Contraseñas
-    var PASSWORD = "mipass123";      // Contraseña normal de sala
-    var ADMIN_PASS = "adminpass123"; // Contraseña exclusiva de admin
+    var PASSWORD = "mipass123";      // Contraseña de usuario
+    var ADMIN_PASS = "adminpass123"; // Contraseña de admin
 
     function $(id){ return document.getElementById(id); }
 
@@ -55,12 +52,8 @@
     }
 
     $("btnEnter").addEventListener("click", enter);
-    $("password").addEventListener("keypress", function(e){
-      if (e.keyCode === 13) enter();
-    });
-    $("nick").addEventListener("keypress", function(e){
-      if (e.keyCode === 13) enter();
-    });
+    $("password").addEventListener("keypress", e => { if (e.keyCode === 13) enter(); });
+    $("nick").addEventListener("keypress", e => { if (e.keyCode === 13) enter(); });
   </script>
 </body>
 </html>
