@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
-  <link rel="stylesheet" href="style.css">
   <style>
     body { font-family: sans-serif; max-width: 700px; margin: 0 auto; padding: 8px; }
     .chat-box { border: 1px solid #ddd; border-radius: 10px; height: 65vh; overflow-y: auto; padding: 8px; background: #fafafa; }
@@ -19,21 +18,12 @@
     .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .small { font-size: 12px; opacity: 0.7; }
     .admin-btns { display: none; margin-left: 10px; }
-
-    /* notice */
     #notice { margin: 6px 0; font-size: 13px; color: #444; min-height: 18px; }
-
-    /* modal sin alert/confirm */
     .modal {
-      display: none;
-      position: fixed; top:0; left:0; right:0; bottom:0;
-      background: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center;
+      display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+      background: rgba(0,0,0,0.6); justify-content: center; align-items: center;
     }
-    .modal-content {
-      background: #fff; padding: 16px; border-radius: 8px;
-      text-align: center; max-width: 300px;
-    }
+    .modal-content { background: #fff; padding: 16px; border-radius: 8px; text-align: center; max-width: 300px; }
     .modal-content button { margin: 8px; padding: 8px 14px; }
   </style>
 </head>
@@ -48,9 +38,7 @@
     </div>
   </div>
 
-  <!-- Avisos (reemplaza alert()) -->
   <div id="notice" aria-live="polite"></div>
-
   <div id="messages" class="chat-box" aria-live="polite"></div>
 
   <div class="row">
@@ -58,7 +46,6 @@
     <button id="sendBtn">Enviar</button>
   </div>
 
-  <!-- Modal de confirmación -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <p>¿Seguro que quieres borrar todo el chat?</p>
@@ -67,54 +54,26 @@
     </div>
   </div>
 
-  <!-- Firebase v8 (compatible con Kindle) -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-  <!-- Lógica del chat -->
   <script src="chat.js"></script>
 
   <script>
-    // Mostrar botón admin solo si corresponde (lo pusimos en index.html)
     var isAdmin = sessionStorage.getItem("is_admin") === "1";
-    if (isAdmin) {
-      document.getElementById("adminBtns").style.display = "inline";
-    }
+    if (isAdmin) { document.getElementById("adminBtns").style.display = "inline"; }
 
-    // Modal y botones (sin usar alert/confirm)
     const modal = document.getElementById("modal");
     const deleteBtn = document.getElementById("deleteBtn");
     const noBtn = document.getElementById("noBtn");
     const yesBtn = document.getElementById("yesBtn");
 
-    if (deleteBtn) {
-      deleteBtn.onclick = () => { modal.style.display = "flex"; };
-    }
-    if (noBtn) {
-      noBtn.onclick = () => { modal.style.display = "none"; };
-    }
-    if (yesBtn) {
-      yesBtn.onclick = () => {
-        modal.style.display = "none";
-        // Llamamos a la función global deleteChat definida en chat.js
-        if (typeof window.deleteChat === "function") {
-          window.deleteChat();
-        } else if (window.database && typeof getRoomId === "function") {
-          // fallback si por alguna razón chat.js no cargó correctamente
-          window.database.ref("rooms/" + getRoomId() + "/messages").remove()
-            .then(() => {
-              document.getElementById("messages").innerHTML = "";
-              document.getElementById("notice").textContent = "Chat borrado ✅";
-            })
-            .catch(err => {
-              document.getElementById("notice").textContent = "Error al borrar: " + err;
-            });
-        } else {
-          document.getElementById("notice").textContent = "No se pudo borrar (no conectado)";
-        }
-      };
-    }
+    if (deleteBtn) deleteBtn.onclick = () => { modal.style.display = "flex"; };
+    if (noBtn) noBtn.onclick = () => { modal.style.display = "none"; };
+    if (yesBtn) yesBtn.onclick = () => {
+      modal.style.display = "none";
+      if (typeof window.deleteChat === "function") window.deleteChat();
+    };
   </script>
 </body>
 </html>
