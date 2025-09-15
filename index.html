@@ -1,60 +1,65 @@
-<!DOCTYPE html>  <html lang="es">  
-<head>  
-  <meta charset="utf-8">  
-  <title>Acceso al Chat</title>  
-  <meta name="viewport" content="width=device-width, initial-scale=1">  
-  <!-- Evitar caché agresivo del Kindle -->  
-  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">  
-  <meta http-equiv="Pragma" content="no-cache">  
-  <link rel="stylesheet" href="style.css">  
-  <style>  
-    /* Un poco extra por si Kindle ignora el CSS externo en primera carga */  
-    body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 16px; }  
-    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }  
-    input, button { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; }  
-    .title { font-size: 20px; margin-bottom: 8px; }  
-  </style>  
-</head>  
-<body>  
-  <div class="card">  
-    <div class="title">🔑 Acceso al Chat</div>  
-    <label for="nick">Tu nombre o nick</label>  
-    <input id="nick" type="text" placeholder="Ej: Nico" maxlength="24">  <label for="password">Contraseña de la sala</label>  
-<input id="password" type="password" placeholder="•••••••" maxlength="64">  
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Acceso al Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Evitar caché agresivo del Kindle -->
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 16px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; }
+    input, button { width: 100%; padding: 12px; margin: 8px 0; font-size: 16px; }
+    .title { font-size: 20px; margin-bottom: 8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="title">🔑 Acceso al Chat</div>
+    <label for="nick">Tu nombre o nick</label>
+    <input id="nick" type="text" placeholder="Ej: Nico" maxlength="24">
 
-<button id="btnEnter">Entrar</button>  
-<div id="msg" aria-live="polite"></div>
+    <label for="password">Contraseña</label>
+    <input id="password" type="password" placeholder="•••••••" maxlength="64">
 
-  </div>    <script>  
-    // ⚠️ CAMBIAR AQUÍ LA CONTRASEÑA DE LA SALA  
-    var PASSWORD = "mipass123";  
-  
-    function $(id){ return document.getElementById(id); }  
-  
-    function enter(){  
-      var nick = $("nick").value.replace(/^\s+|\s+$/g, '');  
-      var pass = $("password").value;  
-  
-      if (!nick) { $("msg").innerHTML = "Pon un nick amistoso 😄"; return; }  
-      if (!pass) { $("msg").innerHTML = "Falta la contraseña 🔐"; return; }  
-  
-      if (pass === PASSWORD) {  
-        try {  
-          sessionStorage.setItem("chat_nick", nick);  
-          sessionStorage.setItem("chat_pass", pass);  
-        } catch(e) {}  
-        window.location.href = "chat.html";  
-      } else {  
-        $("msg").innerHTML = "Contraseña incorrecta 🚫";  
-      }  
-    }  
-  
-    $("btnEnter").addEventListener("click", enter);  
-    $("password").addEventListener("keypress", function(e){  
-      if (e.keyCode === 13) enter();  
-    });  
-    $("nick").addEventListener("keypress", function(e){  
-      if (e.keyCode === 13) enter();  
-    });  
-  </script>  </body>  
-</html> 
+    <button id="btnEnter">Entrar</button>
+    <div id="msg" aria-live="polite"></div>
+  </div>
+
+  <script>
+    var PASSWORD = "mipass123";      // Contraseña de sala
+    var ADMIN_PASS = "adminpass123"; // Contraseña de admin
+
+    function $(id){ return document.getElementById(id); }
+
+    function enter(){
+      var nick = $("nick").value.trim();
+      var pass = $("password").value;
+
+      if (!nick) { $("msg").innerHTML = "Pon un nick amistoso 😄"; return; }
+      if (!pass) { $("msg").innerHTML = "Falta la contraseña 🔐"; return; }
+
+      if (pass === PASSWORD || pass === ADMIN_PASS) {
+        try {
+          sessionStorage.setItem("chat_nick", nick);
+          sessionStorage.setItem("chat_pass", pass);
+          sessionStorage.setItem("is_admin", pass === ADMIN_PASS ? "1" : "0");
+        } catch(e) {}
+        window.location.href = "chat.html";
+      } else {
+        $("msg").innerHTML = "Contraseña incorrecta 🚫";
+      }
+    }
+
+    $("btnEnter").addEventListener("click", enter);
+    $("password").addEventListener("keypress", function(e){
+      if (e.keyCode === 13) enter();
+    });
+    $("nick").addEventListener("keypress", function(e){
+      if (e.keyCode === 13) enter();
+    });
+  </script>
+</body>
+</html>
