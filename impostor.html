@@ -20,7 +20,9 @@
   header{display:flex;align-items:center;justify-content:space-between;}
   h1{font-size:var(--big);margin:0;line-height:1;}
   .muted{color:var(--muted);font-size:var(--small);}
+
   .card{border-radius:8px;padding:16px;background:transparent;border:2px solid #000;box-shadow:none;}
+
   .controls{display:flex;gap:12px;flex-wrap:wrap;}
   .control{
     flex:1 1 120px;
@@ -31,11 +33,12 @@
     font-size:var(--medium);
     border:2px solid #000;
     user-select:none;
-    -webkit-user-select:none;
     background:#fff;
   }
+
   .big-center{font-size:48px;font-weight:700;text-align:center;margin-top:8px;}
   .word-display{font-size:56px;text-align:center;letter-spacing:1px;padding:26px 10px;}
+
   .btn{
     display:block;
     width:100%;
@@ -49,18 +52,19 @@
     user-select:none;
   }
   .row{display:flex;gap:12px;}
+
   label{font-size:18px;display:block;margin-bottom:6px;}
-  input[type="number"], input[type="text"]{
+  input[type="number"]{
     width:100%;
     padding:10px;
     font-size:20px;
     border-radius:8px;
     border:2px solid #000;
-    box-sizing:border-box;
     background:#fff;
   }
+
   footer{margin-top:auto;font-size:14px;color:var(--muted);text-align:center;padding-bottom:8px;}
-  /* large tap targets for kindle */
+
   @media (max-width:800px){
     :root{--big:38px;--medium:24px;--small:16px;--pad:14px;}
     .word-display{font-size:48px;}
@@ -81,26 +85,28 @@
         <label for="players">Jugadores (total)</label>
         <input id="players" type="number" min="3" max="20" value="6" />
       </div>
+
       <div style="flex:1;min-width:160px">
         <label for="impostors">Impostores</label>
         <input id="impostors" type="number" min="1" max="5" value="1" />
       </div>
+
+      <!-- NUEVO: botón para elegir palabra -->
       <div style="flex:1;min-width:200px">
-        <label for="word">Palabra secreta</label>
-        <input id="word" type="text" value="Pizza" />
+        <label>Palabra</label>
+        <button id="btn-choose-word" class="control">Elige tu palabra</button>
       </div>
     </div>
 
     <div style="height:12px"></div>
 
     <div class="controls">
-      <button id="btn-random" class="control">Palabra aleatoria</button>
       <button id="btn-save" class="control">Empezar juego</button>
       <button id="btn-reset" class="control">Reset roles</button>
     </div>
 
     <div style="height:8px"></div>
-    <div class="muted">Consejo: usa el botón central o toca "Revelar" cuando pases el dispositivo al siguiente jugador.</div>
+    <div class="muted">Si no eliges una palabra, se pondrá una al azar automáticamente.</div>
   </section>
 
   <!-- PLAYER VIEW -->
@@ -115,7 +121,7 @@
     </div>
 
     <div style="height:8px"></div>
-    <div class="muted">También: teclas Enter / Espacio = Revelar, N = Siguiente</div>
+    <div class="muted">Enter / Espacio = Revelar, N = Siguiente</div>
   </section>
 
   <!-- END SCREEN -->
@@ -126,26 +132,22 @@
   </section>
 
   <footer>
-    Diseñado para Kindle (experimental browser) — guarda la página en el servidor local o ábrela desde el navegador del Kindle.
+    Diseñado para Kindle (experimental browser)
   </footer>
 </div>
 
 <script>
-/* Juego impostor - single file web app */
 (function(){
   const el = id => document.getElementById(id);
-  // screens
+
   const screenConfig = el('screen-config');
   const screenPlayer = el('screen-player');
   const screenEnd = el('screen-end');
 
-  // config inputs
   const inpPlayers = el('players');
   const inpImpostors = el('impostors');
-  const inpWord = el('word');
 
-  // buttons
-  const btnRandom = el('btn-random');
+  const btnChooseWord = el('btn-choose-word');
   const btnSave = el('btn-save');
   const btnReset = el('btn-reset');
   const btnReveal = el('btn-reveal');
@@ -155,11 +157,10 @@
   const playerTitle = el('player-title');
   const wordBox = el('word-box');
 
-  // state
-  let players = parseInt(inpPlayers.value,10);
-  let impostors = parseInt(inpImpostors.value,10);
-  let secretWord = inpWord.value || '';
-  let roles = []; // boolean array: true = impostor
+  let players = 6;
+  let impostors = 1;
+  let secretWord = null;
+  let roles = [];
   let current = 0;
   let revealed = false;
 
@@ -173,23 +174,25 @@
     screenConfig.style.display = 'none';
     screenPlayer.style.display = 'none';
     screenEnd.style.display = 'none';
-    elm.style.display = ''; // show chosen
-    // scroll to top for e-ink devices
+    elm.style.display = '';
     window.scrollTo(0,0);
   }
 
   function clampConfig(){
     players = Math.max(3, Math.min(20, parseInt(inpPlayers.value || 3,10)));
     inpPlayers.value = players;
+
     impostors = Math.max(1, Math.min(players-1, parseInt(inpImpostors.value || 1,10)));
     inpImpostors.value = impostors;
-    secretWord = (inpWord.value || '').trim() || sampleWords[Math.floor(Math.random()*sampleWords.length)];
-    inpWord.value = secretWord;
+
+    // si NO eligió palabra → palabra aleatoria
+    if(!secretWord){
+      secretWord = sampleWords[Math.floor(Math.random()*sampleWords.length)];
+    }
   }
 
   function assignRoles(){
     roles = new Array(players).fill(false);
-    // choose distinct random indexes for impostors
     const picked = new Set();
     while(picked.size < impostors){
       picked.add(Math.floor(Math.random()*players));
@@ -208,51 +211,48 @@
 
   function updatePlayerView(){
     playerTitle.textContent = `Jugador ${current+1}`;
-    wordBox.textContent = '—';
+    wordBox.textContent = "—";
     revealed = false;
-    // make reveal button focusable (for physical enter)
     btnReveal.disabled = false;
     btnNext.disabled = true;
   }
 
   function revealRole(){
-    if (revealed) return;
+    if(revealed) return;
     revealed = true;
-    if (roles[current]){
-      wordBox.textContent = 'IMPOSTOR ❌';
+
+    if(roles[current]){
+      wordBox.textContent = "IMPOSTOR ❌";
     } else {
       wordBox.textContent = secretWord;
     }
-    // after reveal, enable next
+
     btnReveal.disabled = true;
     btnNext.disabled = false;
-    // for e-ink: force a small reflow / focus
     btnNext.focus();
   }
 
   function nextPlayer(){
-    if (!revealed) return; // force reveal first
+    if(!revealed) return;
     current++;
-    if (current >= players){
+    if(current >= players){
       show(screenEnd);
     } else {
       updatePlayerView();
     }
   }
 
-  // UI events
-  btnRandom.addEventListener('click', ()=>{
-    inpWord.value = sampleWords[Math.floor(Math.random()*sampleWords.length)];
+  btnChooseWord.addEventListener("click", ()=>{
+    const w = prompt("Escribe tu palabra secreta:");
+    if(w && w.trim().length > 0){
+      secretWord = w.trim();
+      btnChooseWord.textContent = "Palabra elegida ✔";
+    }
   });
-  btnSave.addEventListener('click', ()=>{
-    // save config from inputs
-    clampConfig();
-    secretWord = inpWord.value;
-    startGame();
-  });
+
+  btnSave.addEventListener('click', startGame);
+
   btnReset.addEventListener('click', ()=>{
-    // reset roles only
-    clampConfig();
     assignRoles();
     alert('Roles reiniciados (nuevos impostores aleatorios).');
   });
@@ -260,43 +260,30 @@
   btnReveal.addEventListener('click', revealRole);
   btnNext.addEventListener('click', nextPlayer);
   btnRestart.addEventListener('click', ()=>{
+    secretWord = null;
+    btnChooseWord.textContent = "Elige tu palabra";
     show(screenConfig);
-    window.scrollTo(0,0);
   });
 
-  // keyboard shortcuts for physical keyboards (Enter/Space reveal, N next)
-  document.addEventListener('keydown', function(e){
-    // ignore if config inputs focused (so typing word works)
+  document.addEventListener('keydown', e=>{
     const tag = (document.activeElement || {}).tagName || '';
-    if(tag === 'INPUT' || tag === 'TEXTAREA') {
-      // allow Enter in config to start
-      if(e.key === 'Enter' && screenConfig.style.display !== 'none') {
-        e.preventDefault();
-        btnSave.click();
-      }
+
+    if(tag === 'INPUT' && e.key === 'Enter' && screenConfig.style.display !== 'none'){
+      e.preventDefault();
+      btnSave.click();
       return;
     }
 
+    if(screenPlayer.style.display === 'none') return;
+
     if(e.key === 'Enter' || e.key === ' '){
-      if(screenPlayer.style.display !== 'none') revealRole();
+      revealRole();
     } else if(e.key.toLowerCase() === 'n'){
-      if(screenPlayer.style.display !== 'none') nextPlayer();
-    } else if(e.key === 'Escape'){
-      // go back to config quickly
-      if(screenPlayer.style.display !== 'none') show(screenConfig);
+      nextPlayer();
     }
   });
 
-  // load initial
   show(screenConfig);
-
-  // expose a tiny helper for Kindle users who want to use hardware buttons via "sendKey"
-  // (some custom firmware exposes this; safe to ignore)
-  window.impostorGame = {
-    reveal: revealRole,
-    next: nextPlayer,
-    start: startGame
-  };
 })();
 </script>
 </body>
