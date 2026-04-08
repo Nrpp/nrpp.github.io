@@ -19,14 +19,14 @@ body {
     min-height: 100vh;
     background: linear-gradient(135deg, #000000, #2d1b69, #000000);
     background-attachment: fixed;
-    color: gold;
+    color: #ffffff;
     font-family: 'Playfair Display', serif;
     text-align: center;
 }
 
 /* TÍTULO */
 h1 {
-    font-family: 'Salvador', 'Cinzel', serif;
+    font-family: 'Cinzel', serif;
     font-size: 55px;
     margin-top: 30px;
     text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
@@ -43,10 +43,10 @@ h1 {
 /* BOTONES GRANDES */
 .categories button {
     width: 100%;
-    height: 160px;
-    font-size: 30px;
+    height: 200px;
+    font-size: 60px;
     border-radius: 25px;
-    background: linear-gradient(45deg, #d4af37, #f4e8c1);
+    background: linear-gradient(45deg, #37d4cc, #696bdf);
     border: none;
     cursor: pointer;
     font-family: 'Salvador', sans-serif;
@@ -68,7 +68,7 @@ h1 {
     padding: 40px;
     border-radius: 25px;
     margin: 30px;
-    border: 2px solid gold;
+    border: 2px solid #00ffcb;
     box-shadow: 0 20px 50px rgba(0,0,0,0.7);
     animation: fadeIn 0.5s ease;
 }
