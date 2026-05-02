@@ -8,52 +8,51 @@
 </head>
 <body class="admin-body">
 
-<!-- LOGIN SCREEN -->
-<div id="loginScreen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:20px;">
-    <div class="admin-title" style="font-size:36px;">⚙️ Admin Panel</div>
-    <p style="color:rgba(255,255,255,0.35);font-style:italic;font-size:14px;">Beat Battle · Restricted Access</p>
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:35px;width:100%;max-width:380px;">
+<!-- LOGIN -->
+<div id="loginScreen" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:20px;text-align:center;">
+    <div class="admin-title" style="font-size:34px;">⚙️ Admin Panel</div>
+    <p style="color:rgba(255,255,255,0.3);font-style:italic;font-size:14px;">Beat Battle · Restricted Access</p>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:35px;width:100%;max-width:360px;">
         <label class="admin-label">Password</label>
         <input type="password" id="passwordInput" class="admin-input" placeholder="Enter admin password" style="margin-bottom:15px;">
-        <button class="export-btn" style="width:100%;padding:14px;font-size:15px;" onclick="checkPassword()">Unlock →</button>
-        <p id="loginError" style="color:#ff8080;font-size:13px;margin-top:10px;display:none;">❌ Wrong password</p>
+        <button class="export-btn" style="width:100%;padding:14px;font-size:15px;margin:0;" onclick="checkPassword()">Unlock →</button>
+        <p id="loginError" style="color:#ff8080;font-size:13px;margin-top:12px;display:none;">❌ Wrong password</p>
     </div>
 </div>
 
-<!-- ADMIN PANEL (hidden until login) -->
+<!-- ADMIN PANEL -->
 <div id="adminPanel" style="display:none;">
 
 <div class="admin-header">
     <div class="admin-title">⚙️ Admin Panel</div>
     <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <div id="syncStatus" style="font-size:13px;color:rgba(255,255,255,0.3);font-family:'Cinzel',serif;letter-spacing:1px;"></div>
+        <div id="syncStatus" style="font-size:12px;color:rgba(255,255,255,0.28);font-family:'Cinzel',serif;letter-spacing:1px;"></div>
         <a href="index.html" class="back-link">← Back to Game</a>
     </div>
 </div>
 
-<!-- GITHUB TOKEN SETUP -->
-<div id="tokenSetup" style="background:rgba(240,192,64,0.07);border:1px solid rgba(240,192,64,0.25);border-radius:16px;padding:22px;margin-bottom:30px;">
+<!-- GITHUB TOKEN -->
+<div style="background:rgba(240,192,64,0.06);border:1px solid rgba(240,192,64,0.22);border-radius:16px;padding:22px;margin-bottom:28px;">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:15px;">
-        <div style="flex:1;min-width:240px;">
-            <div style="font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;color:#f0c040;margin-bottom:8px;">🔑 GITHUB TOKEN</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45);line-height:1.7;">
-                Needed to save changes directly to GitHub. Get yours at
+        <div style="flex:1;min-width:220px;">
+            <div style="font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;color:#f0c040;margin-bottom:7px;">🔑 GITHUB TOKEN</div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.7;">
+                Needed to publish changes. Get yours at
                 <a href="https://github.com/settings/tokens/new?scopes=repo&description=BeatBattle+Admin" target="_blank" style="color:#00ffcb;text-decoration:none;">github.com/settings/tokens</a>
-                — select <strong style="color:#fff;">repo</strong> scope. Stored only in your browser, never uploaded.
+                (select <strong style="color:#fff;">repo</strong> scope). Stored only in your browser.
             </p>
         </div>
         <div style="display:flex;gap:10px;align-items:center;flex-shrink:0;">
-            <input type="password" id="tokenInput" class="admin-input" placeholder="ghp_xxxxxxxxxxxx" style="width:210px;margin:0;">
-            <button class="export-btn" style="padding:12px 18px;font-size:13px;white-space:nowrap;" onclick="saveToken()">Save</button>
+            <input type="password" id="tokenInput" class="admin-input" placeholder="ghp_xxxxxxxxxxxx" style="width:200px;margin:0;">
+            <button class="export-btn" style="padding:11px 16px;font-size:12px;white-space:nowrap;margin:0;" onclick="saveToken()">Save</button>
         </div>
     </div>
     <div id="tokenStatus" style="margin-top:10px;font-size:13px;"></div>
 </div>
 
-<!-- CATEGORY PANELS -->
+<!-- QUESTION PANELS -->
 <div class="admin-grid">
 
-    <!-- PAINT -->
     <div class="admin-panel">
         <div class="panel-title paint">🎨 PAINT</div>
         <label class="admin-label">New task to draw</label>
@@ -62,7 +61,6 @@
         <div class="question-list" id="list-dibujar"></div>
     </div>
 
-    <!-- MIMIC -->
     <div class="admin-panel">
         <div class="panel-title mimic">🎭 MIMIC</div>
         <label class="admin-label">New action to mime</label>
@@ -71,7 +69,6 @@
         <div class="question-list" id="list-mimica"></div>
     </div>
 
-    <!-- DESCRIBE -->
     <div class="admin-panel">
         <div class="panel-title description">🧠 DESCRIBE</div>
         <label class="admin-label">New definition question</label>
@@ -80,7 +77,6 @@
         <div class="question-list" id="list-definicion"></div>
     </div>
 
-    <!-- QUESTION -->
     <div class="admin-panel">
         <div class="panel-title question">❓ QUESTION</div>
         <label class="admin-label">Question text</label>
@@ -105,30 +101,41 @@
 
 </div>
 
+<!-- INSTRUCTIONS EDITOR -->
+<div class="admin-panel" style="margin-top:22px;">
+    <div class="panel-title instructions-panel">📖 HOW TO PLAY — Instructions Editor</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:20px;line-height:1.7;">
+        Edit the instruction steps shown to players when they open the game. Changes are saved to GitHub along with the questions.
+    </p>
+    <div id="instrEditorList"></div>
+    <button class="add-btn gold" onclick="addInstrStep()" style="margin-top:10px;">+ Add Step</button>
+</div>
+
 <!-- SAVE TO GITHUB -->
-<div class="export-section">
+<div class="export-section" style="margin-top:22px;">
     <div class="export-title">🚀 SAVE TO GITHUB</div>
-    <p style="color:rgba(255,255,255,0.35);font-size:13px;margin-bottom:18px;line-height:1.6;">
-        This overwrites <code style="color:#00ffcb;background:rgba(0,255,203,0.08);padding:2px 6px;border-radius:5px;">partyandco/preguntas.js</code> in your repo and publishes changes live automatically (~30s delay).
+    <p style="color:rgba(255,255,255,0.3);font-size:13px;margin-bottom:16px;line-height:1.6;">
+        Overwrites <code style="color:#00ffcb;background:rgba(0,255,203,0.08);padding:2px 6px;border-radius:4px;">partyandco/preguntas.js</code> and
+        <code style="color:#00ffcb;background:rgba(0,255,203,0.08);padding:2px 6px;border-radius:4px;">partyandco/instructions.js</code> in your repo. Live in ~30s.
     </p>
     <button class="export-btn" onclick="saveToGitHub()" id="saveBtn">💾 Save &amp; Publish to GitHub</button>
     <button class="export-btn" onclick="loadFromGitHub()" style="background:linear-gradient(135deg,#74b9ff,#0984e3);color:#fff;margin-left:10px;">🔄 Reload from GitHub</button>
-    <div id="githubResult" style="margin-top:16px;font-size:14px;font-family:'Cinzel',serif;letter-spacing:1px;min-height:24px;"></div>
+    <div id="githubResult" style="margin-top:14px;font-size:14px;font-family:'Cinzel',serif;letter-spacing:1px;min-height:22px;"></div>
 </div>
 
 </div><!-- end adminPanel -->
 
 <script>
 // ===================== CONFIG =====================
-const GITHUB_USER = "Nrpp";
-const GITHUB_REPO = "nrpp.github.io";
-const FILE_PATH   = "partyandco/preguntas.js";
-const ADMIN_PASS  = "admin123";
+const GITHUB_USER  = "Nrpp";
+const GITHUB_REPO  = "nrpp.github.io";
+const FILE_Q       = "partyandco/preguntas.js";
+const FILE_I       = "partyandco/instructions.js";
+const ADMIN_PASS   = "admin123";
 
 // ===================== LOGIN =====================
 function checkPassword() {
-    const val = document.getElementById("passwordInput").value;
-    if (val === ADMIN_PASS) {
+    if (document.getElementById("passwordInput").value === ADMIN_PASS) {
         document.getElementById("loginScreen").style.display = "none";
         document.getElementById("adminPanel").style.display  = "block";
         init();
@@ -137,37 +144,42 @@ function checkPassword() {
         document.getElementById("passwordInput").value = "";
     }
 }
-document.getElementById("passwordInput").addEventListener("keydown", e => {
-    if (e.key === "Enter") checkPassword();
-});
+document.getElementById("passwordInput").addEventListener("keydown", e => { if(e.key==="Enter") checkPassword(); });
 
 // ===================== TOKEN =====================
 function saveToken() {
     const t = document.getElementById("tokenInput").value.trim();
-    if (!t) return showToast("⚠️ Paste your token first", "error");
+    if (!t) return showToast("⚠️ Paste your token first","error");
     localStorage.setItem("bb_gh_token", t);
     document.getElementById("tokenInput").value = "";
-    showTokenStatus("✅ Token saved in your browser", "good");
+    showTokenStatus("✅ Token saved in your browser","good");
     showToast("✅ Token saved!");
 }
-
-function getToken() {
-    return localStorage.getItem("bb_gh_token") || "";
-}
-
+function getToken() { return localStorage.getItem("bb_gh_token")||""; }
 function showTokenStatus(msg, type) {
     const el = document.getElementById("tokenStatus");
     el.textContent = msg;
-    el.style.color = type === "good" ? "#7dffb3" : "#ff8080";
+    el.style.color = type==="good" ? "#7dffb3" : "#ff8080";
 }
 
-// ===================== DATA =====================
-let allQuestions = { dibujar: [], mimica: [], definicion: [], test: [] };
-window._fileSha = null;
+// ===================== STATE =====================
+let allQuestions = { dibujar:[], mimica:[], definicion:[], test:[] };
+let allInstructions = [];
+let shaQ = null, shaI = null;
+
+const DEFAULT_INSTRUCTIONS = [
+    { icon:"🎲", title:"Teams & Board", text:"Play in teams of at least 2 players. Take turns rolling a dice and moving along the board. Each square is shaped like one of the 4 categories." },
+    { icon:"🎨", title:"Paint",         text:"Draw the word on paper — no writing allowed, only drawings! Your teammates must guess the word before time runs out." },
+    { icon:"🎭", title:"Mimic",         text:"Act out the word using only gestures and body language. No talking, no mouthing words, no sounds!" },
+    { icon:"🧠", title:"Describe",      text:"Describe the word to your teammates without saying it. No gestures — words only!" },
+    { icon:"❓", title:"Question",      text:"Your whole team answers a multiple-choice music question together. Choose wisely!" },
+    { icon:"⏱️", title:"Time Limit",   text:"Every category has a 1-minute time limit. The timer starts as soon as the card is revealed. If time runs out, you don't score." },
+    { icon:"🍀", title:"Lucky Roll",    text:"If your team answers correctly, you earn a Lucky Roll — an extra dice throw to advance further! You can use a Lucky Roll up to 3 times per game. On your 3rd Lucky Roll, if you get a question wrong, you must move back the number shown on the dice." }
+];
 
 // ===================== INIT =====================
 function init() {
-    if (getToken()) showTokenStatus("✅ Token loaded from browser storage", "good");
+    if (getToken()) showTokenStatus("✅ Token loaded from browser storage","good");
     loadFromGitHub();
 }
 
@@ -175,38 +187,44 @@ function init() {
 async function loadFromGitHub() {
     setSyncStatus("⏳ Loading...");
     document.getElementById("githubResult").textContent = "";
+    const headers = { "Accept":"application/vnd.github+json" };
+    if (getToken()) headers["Authorization"] = `Bearer ${getToken()}`;
+
+    // Load questions
     try {
-        const url = `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`;
-        const headers = { "Accept": "application/vnd.github+json" };
-        if (getToken()) headers["Authorization"] = `Bearer ${getToken()}`;
-
-        const res  = await fetch(url, { headers });
-        const data = await res.json();
-        if (!data.content) throw new Error(data.message || "File not found");
-
-        window._fileSha = data.sha;
-        const raw = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ""))));
-        allQuestions = parsePreguntas(raw);
+        const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_Q}`, { headers });
+        const d = await r.json();
+        if (!d.content) throw new Error(d.message);
+        shaQ = d.sha;
+        allQuestions = parsePreguntas(decodeURIComponent(escape(atob(d.content.replace(/\n/g,"")))));
         renderAll();
-        setSyncStatus("✅ Synced with GitHub");
-        showToast("✅ Questions loaded from GitHub!");
     } catch(e) {
-        setSyncStatus("❌ Load failed");
-        showToast("❌ Could not load: " + e.message, "error");
+        showToast("❌ Could not load questions: " + e.message, "error");
     }
+
+    // Load instructions (may not exist yet — that's fine)
+    try {
+        const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_I}`, { headers });
+        const d = await r.json();
+        if (d.content) {
+            shaI = d.sha;
+            allInstructions = parseInstructions(decodeURIComponent(escape(atob(d.content.replace(/\n/g,"")))));
+        } else {
+            allInstructions = [...DEFAULT_INSTRUCTIONS];
+        }
+    } catch(e) {
+        allInstructions = [...DEFAULT_INSTRUCTIONS];
+    }
+    renderInstrEditor();
+    setSyncStatus("✅ Synced");
+    showToast("✅ Loaded from GitHub!");
 }
 
 // ===================== GITHUB: SAVE =====================
 async function saveToGitHub() {
     const token = getToken();
-    if (!token) {
-        showToast("❌ Please save your GitHub token first", "error");
-        return;
-    }
-    if (!window._fileSha) {
-        showToast("❌ Load from GitHub first before saving", "error");
-        return;
-    }
+    if (!token) { showToast("❌ Save your GitHub token first","error"); return; }
+    if (!shaQ)  { showToast("❌ Load from GitHub first","error"); return; }
 
     const btn = document.getElementById("saveBtn");
     btn.textContent = "⏳ Publishing...";
@@ -214,39 +232,41 @@ async function saveToGitHub() {
     setSyncStatus("⏳ Saving...");
     document.getElementById("githubResult").textContent = "";
 
+    const authHeaders = {
+        "Authorization": `Bearer ${token}`,
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+    };
+
     try {
-        const content = buildPreguntasJS(allQuestions);
-        const encoded = btoa(unescape(encodeURIComponent(content)));
+        // Save questions
+        const qContent = btoa(unescape(encodeURIComponent(buildPreguntasJS(allQuestions))));
+        const qRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_Q}`, {
+            method:"PUT", headers:authHeaders,
+            body: JSON.stringify({ message:"Admin: update questions", content:qContent, sha:shaQ })
+        });
+        const qData = await qRes.json();
+        if (!qRes.ok) throw new Error(qData.message || `Questions save failed: HTTP ${qRes.status}`);
+        shaQ = qData.content.sha;
 
-        const res = await fetch(
-            `https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_PATH}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Accept": "application/vnd.github+json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    message: "Admin panel: update questions",
-                    content: encoded,
-                    sha: window._fileSha
-                })
-            }
-        );
-        const data = await res.json();
+        // Save instructions
+        const iContent = btoa(unescape(encodeURIComponent(buildInstructionsJS(allInstructions))));
+        const iBody = { message:"Admin: update instructions", content:iContent };
+        if (shaI) iBody.sha = shaI;
+        const iRes = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FILE_I}`, {
+            method:"PUT", headers:authHeaders,
+            body: JSON.stringify(iBody)
+        });
+        const iData = await iRes.json();
+        if (!iRes.ok) throw new Error(iData.message || `Instructions save failed: HTTP ${iRes.status}`);
+        shaI = iData.content.sha;
 
-        if (res.ok) {
-            window._fileSha = data.content.sha;
-            setSyncStatus("✅ Published!");
-            showToast("🚀 Published! Live in ~30 seconds.");
-            document.getElementById("githubResult").innerHTML =
-                `✅ Published successfully! &nbsp;<a href="https://nrpp.github.io/partyandco/" target="_blank" style="color:#00ffcb;text-decoration:none;">View live game →</a>`;
-        } else {
-            throw new Error(data.message || `HTTP ${res.status}`);
-        }
+        setSyncStatus("✅ Published!");
+        showToast("🚀 Published! Live in ~30 seconds.");
+        document.getElementById("githubResult").innerHTML =
+            `✅ Published! &nbsp;<a href="https://nrpp.github.io/partyandco/" target="_blank" style="color:#00ffcb;text-decoration:none;">View live game →</a>`;
     } catch(e) {
-        setSyncStatus("❌ Save failed");
+        setSyncStatus("❌ Failed");
         showToast("❌ Error: " + e.message, "error");
     } finally {
         btn.textContent = "💾 Save & Publish to GitHub";
@@ -254,12 +274,11 @@ async function saveToGitHub() {
     }
 }
 
-// ===================== PARSE preguntas.js =====================
+// ===================== PARSE =====================
 function parsePreguntas(src) {
     try {
-        const match = src.match(/const preguntas\s*=\s*(\{[\s\S]*\});?\s*$/m)
-                   || src.match(/const preguntas\s*=\s*(\{[\s\S]*\})/);
-        if (!match) throw new Error("Could not find preguntas object in file");
+        const match = src.match(/const preguntas\s*=\s*(\{[\s\S]*\})/);
+        if (!match) throw new Error("preguntas not found");
         const obj = (new Function("return " + match[1]))();
         return {
             dibujar:    Array.isArray(obj.dibujar)    ? obj.dibujar    : [],
@@ -268,49 +287,55 @@ function parsePreguntas(src) {
             test:       Array.isArray(obj.test)       ? obj.test       : []
         };
     } catch(e) {
-        console.error("Parse error:", e);
-        showToast("⚠️ Could not parse preguntas.js — check console", "error");
-        return { dibujar: [], mimica: [], definicion: [], test: [] };
+        showToast("⚠️ Could not parse preguntas.js","error");
+        return { dibujar:[], mimica:[], definicion:[], test:[] };
     }
 }
 
-// ===================== BUILD preguntas.js =====================
-function buildPreguntasJS(q) {
-    const simpleList = arr =>
-        arr.length === 0 ? "" : arr.map(s => `        ${JSON.stringify(s)}`).join(",\n");
+function parseInstructions(src) {
+    try {
+        const match = src.match(/const instructions\s*=\s*(\[[\s\S]*\])/);
+        if (!match) throw new Error("instructions not found");
+        return (new Function("return " + match[1]))();
+    } catch(e) {
+        return [...DEFAULT_INSTRUCTIONS];
+    }
+}
 
-    const testList = q.test.length === 0 ? "" : q.test.map(t => `        {
+// ===================== BUILD JS FILES =====================
+function buildPreguntasJS(q) {
+    const simple = arr => arr.length===0 ? "" : arr.map(s=>`        ${JSON.stringify(s)}`).join(",\n");
+    const tests  = q.test.length===0 ? "" : q.test.map(t=>`        {
             pregunta: ${JSON.stringify(t.pregunta)},
             opciones: ${JSON.stringify(t.opciones)},
             correcta: ${t.correcta}
         }`).join(",\n");
-
     return `// NOTE: "correcta" uses 1-based indexing (1 = first option).
-// Managed by Beat Battle Admin Panel — do not edit manually.
+// Managed by Beat Battle Admin Panel.
 // Last updated: ${new Date().toISOString()}
 
 const preguntas = {
-    dibujar: [
-${simpleList(q.dibujar)}
-    ],
-    mimica: [
-${simpleList(q.mimica)}
-    ],
-    definicion: [
-${simpleList(q.definicion)}
-    ],
-    test: [
-${testList}
-    ]
+    dibujar: [\n${simple(q.dibujar)}\n    ],
+    mimica: [\n${simple(q.mimica)}\n    ],
+    definicion: [\n${simple(q.definicion)}\n    ],
+    test: [\n${tests}\n    ]
 };
 `;
 }
 
-// ===================== ADD =====================
+function buildInstructionsJS(steps) {
+    return `// Beat Battle — Instructions
+// Managed by Admin Panel. Last updated: ${new Date().toISOString()}
+
+const instructions = ${JSON.stringify(steps, null, 4)};
+`;
+}
+
+// ===================== QUESTIONS: ADD / DELETE / RENDER =====================
 function addQuestion(tipo) {
     const input = document.getElementById(`input-${tipo}`);
-    const val   = input.value.trim();
-    if (!val) return showToast("⚠️ Enter some text first", "error");
+    const val = input.value.trim();
+    if (!val) return showToast("⚠️ Enter some text first","error");
     allQuestions[tipo].push(val);
     input.value = "";
     renderList(tipo);
@@ -325,24 +350,19 @@ function addTestQuestion() {
     const op4 = document.getElementById("test-op4").value.trim();
     const correcta = parseInt(document.querySelector('input[name="correcta"]:checked').value);
 
-    if (!q || !op1 || !op2) return showToast("⚠️ Fill in the question and at least 2 options", "error");
-
-    const opciones = [op1, op2];
+    if (!q || !op1 || !op2) return showToast("⚠️ Fill in the question and at least 2 options","error");
+    const opciones = [op1,op2];
     if (op3) opciones.push(op3);
     if (op4) opciones.push(op4);
+    if (correcta > opciones.length) return showToast("⚠️ Correct answer index exceeds options","error");
 
-    if (correcta > opciones.length)
-        return showToast("⚠️ Correct answer index exceeds number of options", "error");
-
-    allQuestions.test.push({ pregunta: q, opciones, correcta });
-    ["test-question","test-op1","test-op2","test-op3","test-op4"]
-        .forEach(id => { document.getElementById(id).value = ""; });
+    allQuestions.test.push({ pregunta:q, opciones, correcta });
+    ["test-question","test-op1","test-op2","test-op3","test-op4"].forEach(id => document.getElementById(id).value="");
     document.querySelector('input[name="correcta"][value="1"]').checked = true;
     renderList("test");
     showToast("✅ Added! Click Save & Publish when done.");
 }
 
-// ===================== DELETE =====================
 function deleteQuestion(tipo, index) {
     if (!confirm("Delete this question?")) return;
     allQuestions[tipo].splice(index, 1);
@@ -350,72 +370,110 @@ function deleteQuestion(tipo, index) {
     showToast("🗑 Deleted. Click Save & Publish to apply.");
 }
 
-// ===================== RENDER =====================
-function renderAll() {
-    ["dibujar","mimica","definicion","test"].forEach(renderList);
-}
+function renderAll() { ["dibujar","mimica","definicion","test"].forEach(renderList); }
 
 function renderList(tipo) {
     const list = document.getElementById(`list-${tipo}`);
     if (!list) return;
     const items = allQuestions[tipo];
-
-    if (!items || items.length === 0) {
-        list.innerHTML = `<p style="color:rgba(255,255,255,0.25);font-size:13px;padding:10px 0;font-style:italic;">No questions yet</p>`;
+    if (!items || items.length===0) {
+        list.innerHTML = `<p style="color:rgba(255,255,255,0.22);font-size:13px;padding:10px 0;font-style:italic;">No questions yet</p>`;
         return;
     }
-
-    list.innerHTML = items.map((item, i) => {
+    list.innerHTML = items.map((item,i) => {
         let label;
-        if (tipo === "test") {
-            const correct = item.opciones[item.correcta - 1] || "?";
-            label = `<strong>${escHtml(item.pregunta)}</strong><br>
-                <span style="font-size:12px;opacity:0.45;line-height:2;">${item.opciones.map(escHtml).join(" · ")}
-                &nbsp;<span style="color:#7dffb3;">✓ ${escHtml(correct)}</span></span>`;
-        } else {
-            label = escHtml(item);
-        }
+        if (tipo==="test") {
+            const correct = item.opciones[item.correcta-1]||"?";
+            label = `<strong>${esc(item.pregunta)}</strong><br>
+                <span style="font-size:12px;opacity:0.4;line-height:2;">${item.opciones.map(esc).join(" · ")}
+                <span style="color:#7dffb3;">✓ ${esc(correct)}</span></span>`;
+        } else { label = esc(item); }
         return `<div class="question-item">
-            <span style="flex:1;line-height:1.5;">${label}</span>
-            <button class="delete-btn" onclick="deleteQuestion('${tipo}', ${i})" title="Delete">✕</button>
+            <span style="flex:1;line-height:1.5">${label}</span>
+            <button class="delete-btn" onclick="deleteQuestion('${tipo}',${i})">✕</button>
         </div>`;
     }).join("");
 }
 
+// ===================== INSTRUCTIONS EDITOR =====================
+function renderInstrEditor() {
+    const container = document.getElementById("instrEditorList");
+    container.innerHTML = allInstructions.map((step, i) => `
+        <div class="instr-step-editor" id="instr-${i}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                <span style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,0.3);">STEP ${i+1}</span>
+                <div style="display:flex;gap:8px;">
+                    ${i>0 ? `<button onclick="moveInstr(${i},-1)" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:13px;">↑</button>` : ""}
+                    ${i<allInstructions.length-1 ? `<button onclick="moveInstr(${i},1)" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.5);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:13px;">↓</button>` : ""}
+                    <button onclick="deleteInstr(${i})" style="background:rgba(255,50,50,0.1);border:1px solid rgba(255,50,50,0.2);color:#ff8080;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:13px;">✕</button>
+                </div>
+            </div>
+            <div class="instr-step-row">
+                <input class="admin-input emoji-input" value="${esc(step.icon)}" placeholder="🎲"
+                    oninput="updateInstr(${i},'icon',this.value)" style="width:60px;text-align:center;font-size:20px;margin:0;">
+                <input class="admin-input" value="${esc(step.title)}" placeholder="Step title"
+                    oninput="updateInstr(${i},'title',this.value)" style="flex:1;margin:0;">
+            </div>
+            <textarea class="admin-textarea" rows="3" placeholder="Description text..."
+                oninput="updateInstr(${i},'text',this.value)" style="margin:0;">${esc(step.text)}</textarea>
+        </div>
+    `).join("");
+}
+
+function updateInstr(i, field, value) {
+    allInstructions[i][field] = value;
+}
+
+function addInstrStep() {
+    allInstructions.push({ icon:"⭐", title:"New Step", text:"Describe this rule..." });
+    renderInstrEditor();
+}
+
+function deleteInstr(i) {
+    if (!confirm("Delete this instruction step?")) return;
+    allInstructions.splice(i,1);
+    renderInstrEditor();
+}
+
+function moveInstr(i, dir) {
+    const j = i + dir;
+    if (j<0 || j>=allInstructions.length) return;
+    // Read current values from inputs before moving
+    syncInstrFromDOM();
+    [allInstructions[i], allInstructions[j]] = [allInstructions[j], allInstructions[i]];
+    renderInstrEditor();
+}
+
+function syncInstrFromDOM() {
+    // Sync textarea/input values into allInstructions before re-render
+    allInstructions.forEach((_, i) => {
+        const row = document.getElementById(`instr-${i}`);
+        if (!row) return;
+        const inputs = row.querySelectorAll("input");
+        const ta = row.querySelector("textarea");
+        if (inputs[0]) allInstructions[i].icon  = inputs[0].value;
+        if (inputs[1]) allInstructions[i].title = inputs[1].value;
+        if (ta)        allInstructions[i].text  = ta.value;
+    });
+}
+
 // ===================== UTILS =====================
-function escHtml(s) {
+function esc(s) {
     return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 }
-
-function setSyncStatus(msg) {
-    document.getElementById("syncStatus").textContent = msg;
-}
-
-function showToast(msg, type = "success") {
-    const existing = document.querySelector(".toast");
-    if (existing) existing.remove();
-    const toast = document.createElement("div");
-    toast.className = "toast";
-    if (type === "error") {
-        toast.style.background  = "rgba(255,50,50,0.15)";
-        toast.style.borderColor = "rgba(255,50,50,0.4)";
-        toast.style.color       = "#ff8080";
-    }
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 4000);
+function setSyncStatus(msg) { document.getElementById("syncStatus").textContent = msg; }
+function showToast(msg, type="success") {
+    const e = document.querySelector(".toast"); if(e) e.remove();
+    const t = document.createElement("div"); t.className="toast";
+    if (type==="error") { t.style.background="rgba(255,50,50,0.15)"; t.style.borderColor="rgba(255,50,50,0.4)"; t.style.color="#ff8080"; }
+    t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),4000);
 }
 
 // Enter shortcuts
 ["input-dibujar","input-mimica","input-definicion"].forEach(id => {
-    document.getElementById(id).addEventListener("keydown", e => {
-        if (e.key === "Enter") addQuestion(id.replace("input-",""));
-    });
+    document.getElementById(id).addEventListener("keydown", e => { if(e.key==="Enter") addQuestion(id.replace("input-","")); });
 });
-document.getElementById("test-op4").addEventListener("keydown", e => {
-    if (e.key === "Enter") addTestQuestion();
-});
+document.getElementById("test-op4").addEventListener("keydown", e => { if(e.key==="Enter") addTestQuestion(); });
 </script>
-
 </body>
 </html>
