@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beat Battle — Admin Panel</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-header">
+    <div class="admin-title">⚙️ Admin Panel</div>
+    <a href="index.html" class="back-link">← Back to Game</a>
+</div>
+
+<!-- GRID OF 4 CATEGORY PANELS -->
+<div class="admin-grid">
+
+    <!-- PAINT -->
+    <div class="admin-panel">
+        <div class="panel-title paint">🎨 PAINT</div>
+        <label class="admin-label">New task to draw</label>
+        <input type="text" id="input-dibujar" class="admin-input" placeholder="e.g. Draw a saxophone">
+        <button class="add-btn paint" onclick="addQuestion('dibujar')">+ Add</button>
+        <div class="question-list" id="list-dibujar"></div>
+    </div>
+
+    <!-- MIMIC -->
+    <div class="admin-panel">
+        <div class="panel-title mimic">🎭 MIMIC</div>
+        <label class="admin-label">New action to mime</label>
+        <input type="text" id="input-mimica" class="admin-input" placeholder="e.g. Mime playing the flute">
+        <button class="add-btn mimic" onclick="addQuestion('mimica')">+ Add</button>
+        <div class="question-list" id="list-mimica"></div>
+    </div>
+
+    <!-- DESCRIBE -->
+    <div class="admin-panel">
+        <div class="panel-title description">🧠 DESCRIBE</div>
+        <label class="admin-label">New definition question</label>
+        <input type="text" id="input-definicion" class="admin-input" placeholder="e.g. What is a fugue?">
+        <button class="add-btn description" onclick="addQuestion('definicion')">+ Add</button>
+        <div class="question-list" id="list-definicion"></div>
+    </div>
+
+    <!-- QUESTION (test) -->
+    <div class="admin-panel">
+        <div class="panel-title question">❓ QUESTION</div>
+
+        <label class="admin-label">Question text</label>
+        <input type="text" id="test-question" class="admin-input" placeholder="e.g. Who composed the Moonlight Sonata?">
+
+        <label class="admin-label">Options (fill at least 2)</label>
+        <div class="options-grid">
+            <input type="text" id="test-op1" class="admin-input" placeholder="A) Option 1">
+            <input type="text" id="test-op2" class="admin-input" placeholder="B) Option 2">
+            <input type="text" id="test-op3" class="admin-input" placeholder="C) Option 3 (optional)">
+            <input type="text" id="test-op4" class="admin-input" placeholder="D) Option 4 (optional)">
+        </div>
+
+        <label class="admin-label">Correct answer</label>
+        <div class="correct-radio" id="correct-radio">
+            <label class="radio-label"><input type="radio" name="correcta" value="1" checked> A</label>
+            <label class="radio-label"><input type="radio" name="correcta" value="2"> B</label>
+            <label class="radio-label"><input type="radio" name="correcta" value="3"> C</label>
+            <label class="radio-label"><input type="radio" name="correcta" value="4"> D</label>
+        </div>
+
+        <button class="add-btn question" onclick="addTestQuestion()">+ Add Question</button>
+        <div class="question-list" id="list-test"></div>
+    </div>
+
+</div>
+
+<!-- EXPORT SECTION -->
+<div class="export-section">
+    <div class="export-title">📦 EXPORT & MANAGE</div>
+    <button class="export-btn" onclick="exportCode()">Export as preguntas.js</button>
+    <button class="export-btn" onclick="clearCustom()" style="background: linear-gradient(135deg, #ff7675, #d63031); color:#fff;">🗑 Clear Custom Questions</button>
+    <br>
+    <textarea class="export-code" id="exportOutput" readonly placeholder="Click 'Export' to generate the preguntas.js file content..."></textarea>
+</div>
+
+<script>
+// ===================== DATA =====================
+// Custom questions stored in localStorage
+let custom = {
+    dibujar: [],
+    mimica: [],
+    definicion: [],
+    test: []
+};
+
+// ===================== INIT =====================
+function init() {
+    const saved = localStorage.getItem("beatbattle_questions");
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            Object.keys(custom).forEach(k => {
+                if (parsed[k]) custom[k] = parsed[k];
+            });
+        } catch(e) {}
+    }
+    renderAll();
+}
+
+function save() {
+    localStorage.setItem("beatbattle_questions", JSON.stringify(custom));
+}
+
+// ===================== ADD =====================
+function addQuestion(tipo) {
+    const input = document.getElementById(`input-${tipo}`);
+    const val = input.value.trim();
+    if (!val) return showToast("⚠️ Please enter some text first", "error");
+
+    custom[tipo].push(val);
+    input.value = "";
+    save();
+    renderList(tipo);
+    showToast("✅ Question added!");
+}
+
+function addTestQuestion() {
+    const q   = document.getElementById("test-question").value.trim();
+    const op1 = document.getElementById("test-op1").value.trim();
+    const op2 = document.getElementById("test-op2").value.trim();
+    const op3 = document.getElementById("test-op3").value.trim();
+    const op4 = document.getElementById("test-op4").value.trim();
+    const correcta = parseInt(document.querySelector('input[name="correcta"]:checked').value);
+
+    if (!q || !op1 || !op2) return showToast("⚠️ Fill in the question and at least 2 options", "error");
+
+    const opciones = [op1, op2];
+    if (op3) opciones.push(op3);
+    if (op4) opciones.push(op4);
+
+    if (correcta > opciones.length) return showToast("⚠️ Correct answer index out of range", "error");
+
+    custom.test.push({ pregunta: q, opciones, correcta });
+    // Clear fields
+    ["test-question","test-op1","test-op2","test-op3","test-op4"].forEach(id => {
+        document.getElementById(id).value = "";
+    });
+    document.querySelector('input[name="correcta"][value="1"]').checked = true;
+    save();
+    renderList("test");
+    showToast("✅ Question added!");
+}
+
+// ===================== DELETE =====================
+function deleteQuestion(tipo, index) {
+    custom[tipo].splice(index, 1);
+    save();
+    renderList(tipo);
+    showToast("🗑 Question deleted");
+}
+
+// ===================== RENDER =====================
+function renderAll() {
+    ["dibujar","mimica","definicion","test"].forEach(renderList);
+}
+
+function renderList(tipo) {
+    const list = document.getElementById(`list-${tipo}`);
+    if (!list) return;
+
+    if (custom[tipo].length === 0) {
+        list.innerHTML = `<p style="color:rgba(255,255,255,0.25);font-size:13px;padding:10px 0;font-style:italic;">No custom questions yet</p>`;
+        return;
+    }
+
+    list.innerHTML = custom[tipo].map((item, i) => {
+        const label = tipo === "test"
+            ? `<strong>${item.pregunta}</strong> <br><span style="font-size:12px;opacity:0.5">${item.opciones.join(" / ")} — ✓ ${item.opciones[item.correcta-1]}</span>`
+            : item;
+        return `
+            <div class="question-item">
+                <span>${label}</span>
+                <button class="delete-btn" onclick="deleteQuestion('${tipo}', ${i})" title="Delete">✕</button>
+            </div>`;
+    }).join("");
+}
+
+// ===================== EXPORT =====================
+function exportCode() {
+    // Merge default questions note
+    const output = `// Generated by Beat Battle Admin Panel
+// NOTE: "correcta" uses 1-based indexing (1 = first option).
+// This file contains ONLY your custom questions.
+// Merge with the original preguntas.js if needed.
+
+const preguntasCustom = ${JSON.stringify(custom, null, 4)};
+
+// To use standalone, replace 'preguntas' with 'preguntasCustom' in script.js
+`;
+    document.getElementById("exportOutput").value = output;
+    showToast("✅ Code generated! Copy it below.");
+}
+
+// ===================== CLEAR =====================
+function clearCustom() {
+    if (!confirm("Are you sure you want to delete ALL custom questions? This cannot be undone.")) return;
+    custom = { dibujar: [], mimica: [], definicion: [], test: [] };
+    save();
+    renderAll();
+    showToast("🗑 All custom questions cleared");
+}
+
+// ===================== TOAST =====================
+function showToast(msg, type = "success") {
+    const existing = document.querySelector(".toast");
+    if (existing) existing.remove();
+
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    if (type === "error") {
+        toast.style.background = "rgba(255,50,50,0.15)";
+        toast.style.borderColor = "rgba(255,50,50,0.4)";
+        toast.style.color = "#ff8080";
+    }
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// ===================== ENTER KEY SHORTCUTS =====================
+["input-dibujar","input-mimica","input-definicion"].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const tipo = id.replace("input-","");
+    el.addEventListener("keydown", e => { if (e.key === "Enter") addQuestion(tipo); });
+});
+
+document.getElementById("test-op4").addEventListener("keydown", e => {
+    if (e.key === "Enter") addTestQuestion();
+});
+
+// ===================== START =====================
+init();
+</script>
+
+</body>
+</html>

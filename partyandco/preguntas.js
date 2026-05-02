@@ -1,18 +1,30 @@
+// NOTE: In test questions, "correcta" uses 1-based indexing (1 = first option).
+// script.js converts to 0-based automatically.
+
 const preguntas = {
     dibujar: [
-        "Dibuja un piano",
-        "Dibuja a Chopin",
-        "Dibuja una partitura"
+        "Draw a piano",
+        "Draw Chopin",
+        "Draw a music score / sheet music",
+        "Draw a violin",
+        "Draw a music note",
+        "Draw a conductor with a baton"
     ],
     mimica: [
-        "Imita tocar el piano",
-        "Imita un concierto",
-        "Imita estar triste como Chopin"
+        "Mime playing the piano",
+        "Mime a concert performance",
+        "Mime being sad like Chopin",
+        "Mime playing the violin",
+        "Mime conducting an orchestra",
+        "Mime playing the drums"
     ],
     definicion: [
-        "¿Qué es un nocturno?",
-        "Define música romántica",
-        "¿Qué es una partitura?"
+        "What is a nocturne?",
+        "Define Romantic music",
+        "What is a music score?",
+        "What is counterpoint?",
+        "Define polyphony",
+        "What is a cadenza?"
     ],
     test: [
         {
@@ -27,7 +39,7 @@ const preguntas = {
         },
         {
             pregunta: "What is the primary difference between homophony and counterpoint in Renaissance music?",
-            opciones: ["The number of voices used", "Rhythmic independence of the melodies", "The inclusion of instrumental accopaniment", "The use of Latin vs. secular languages"],
+            opciones: ["The number of voices used", "Rhythmic independence of the melodies", "The inclusion of instrumental accompaniment", "The use of Latin vs. secular languages"],
             correcta: 2
         },
         {
@@ -36,7 +48,7 @@ const preguntas = {
             correcta: 2
         },
         {
-            pregunta: "If a note LA has a frequency of 440 Hz, what would be the frequency of the note one octave higher?",
+            pregunta: "If note LA has a frequency of 440 Hz, what would be the frequency of the note one octave higher?",
             opciones: ["441 Hz", "880 Hz", "660 Hz", "220 Hz"],
             correcta: 2
         },
@@ -47,17 +59,17 @@ const preguntas = {
         },
         {
             pregunta: "What are 'harmonics' in the context of musical timbre?",
-            opciones: ["The speed at which a sound travels through a dense medium", "A technique used to change the volume of a note gradually", "The main melody sung by the soprano in a polyphonic work", "Additional vibrations that are integer multiples of the fundamental frequency"],
+            opciones: ["The speed at which sound travels through a dense medium", "A technique used to change volume gradually", "The main melody sung by the soprano", "Additional vibrations that are integer multiples of the fundamental frequency"],
             correcta: 4
         },
         {
             pregunta: "Which instrument was considered the most important string instrument of the Renaissance?",
-            opciones: ["Viola", "Rebec", "Lute", "Sackbut"],
+            opciones: ["Lute", "Viola", "Rebec", "Sackbut"],
             correcta: 1
         },
         {
             pregunta: "In Spanish Renaissance music, what were 'musical chapels' used for?",
-            opciones: ["Groups of musicians working together to create religious music", "Places where only secular villancicos were performed", "Factories used for the early mass production of printing presses", "Schools dedicated exclusively to teaching the rebec to shepherds"],
+            opciones: ["Groups of musicians working together to create religious music", "Places where only secular villancicos were performed", "Factories used for the early mass production of printing presses", "Schools dedicated exclusively to teaching the rebec"],
             correcta: 1
         },
         {

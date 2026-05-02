@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beat Battle</title>
+<title>Beat Battle 🎹</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<div class="stars"></div>
+
 <h1>🎹 Beat Battle 🎹</h1>
+<p class="subtitle">The Ultimate Music Party Game</p>
 
 <div class="categories">
-    <button onclick="mostrarPregunta('dibujar')">🎨 PAINT</button>
-    <button onclick="mostrarPregunta('mimica')">🎭 MIMIC</button>
-    <button onclick="mostrarPregunta('definicion')">🧠 DESCRIPTION</button>
-    <button onclick="mostrarPregunta('test')">❓ QUESTION</button>
+  <button class="cat-btn paint" onclick="mostrarPregunta('dibujar')">
+    <span class="btn-icon">🎨</span>
+    <span class="btn-label">PAINT</span>
+  </button>
+  <button class="cat-btn mimic" onclick="mostrarPregunta('mimica')">
+    <span class="btn-icon">🎭</span>
+    <span class="btn-label">MIMIC</span>
+  </button>
+  <button class="cat-btn description" onclick="mostrarPregunta('definicion')">
+    <span class="btn-icon">🧠</span>
+    <span class="btn-label">DESCRIBE</span>
+  </button>
+  <button class="cat-btn question" onclick="mostrarPregunta('test')">
+    <span class="btn-icon">❓</span>
+    <span class="btn-label">QUESTION</span>
+  </button>
 </div>
 
 <div id="preguntaContainer"></div>
+
+<button class="reset-btn" onclick="resetGame()">🔄 Reset Game</button>
+
+<a href="admin.html" class="admin-link">⚙️ Admin Panel</a>
 
 <script src="preguntas.js"></script>
 <script src="script.js"></script>
