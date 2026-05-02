@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel — do not edit manually.
-// Last updated: 2026-05-02T11:44:14.588Z
+// Last updated: 2026-05-02T12:09:06.633Z
 
 const preguntas = {
     dibujar: [
@@ -127,6 +127,66 @@ const preguntas = {
             pregunta: "In the context of musical texture, how is 'homophonic' music perceived by the listener?",
             opciones: ["As a single, thin line of sound without any depth.","As a succession of chords where the highest melody is often the main one.","As a chaotic mix of voices where no single rhythm can be found.","As a solo instrument playing with a quiet drum accompaniment."],
             correcta: 2
+        },
+        {
+            pregunta: "What is the recognized timeframe for the Classical period in music history according to the source material?",
+            opciones: ["1700-1780","1820-1900","1600-1750","1750-1820"],
+            correcta: 4
+        },
+        {
+            pregunta: "Which musical texture became increasingly important during the Classical period, especially to ensure vocal clarity?",
+            opciones: ["Monophony","Accompanied melody","Complex Polyphony","Heterophony"],
+            correcta: 2
+        },
+        {
+            pregunta: "Classical composers expanded the use of dynamics to express a wider range of emotions. Which of the following notations represents the softest level mentioned?",
+            opciones: ["mf","mp","p","pp"],
+            correcta: 4
+        },
+        {
+            pregunta: "What distinguishes German Singspiel from traditional Italian Opera Seria?",
+            opciones: ["It is exclusively performed by vocal virtuosos.","It combines spoken dialogue with music.","It deals only with historical and mythological themes.","It was created specifically for the upper classes."],
+            correcta: 2
+        },
+        {
+            pregunta: "Which Spanish musical genre was divided into 'grande' and 'chica' types during its Classical period revival?",
+            opciones: ["Zarzuela","Tonadilla escénica","Opera Buffa","Flamenco"],
+            correcta: 1
+        },
+        {
+            pregunta: "In the context of chamber music, which ensemble is considered the most typical for the Classical period?",
+            opciones: ["Piano Trio","Woodwind Quintet","String Quartet","Brass Quintet"],
+            correcta: 3
+        },
+        {
+            pregunta: "Which instrument was invented by Bartolomeo Cristofori in 1698 and became dominant due to its ability to produce varying volumes?",
+            opciones: ["Pipe Organ","Pianoforte","Clavichord","Harpsichord"],
+            correcta: 2
+        },
+        {
+            pregunta: "Joseph Haydn is frequently referred to by which of the following titles?",
+            opciones: ["The Father of the Symphony","The Architect of the Opera","The Master of the Fugue","The Creator of the Pianoforte"],
+            correcta: 1
+        },
+        {
+            pregunta: "What is the term for a harmonic arrival point at the end of a musical phrase, similar to a period in a sentence?",
+            opciones: ["Subphrase","Cadence","Period","Motif"],
+            correcta: 2
+        },
+        {
+            pregunta: "A conclusive cadence that uses the IV (subdominant) and I (tonic) degrees is known as a/an:",
+            opciones: ["Deceptive cadence","Authentic cadence","Plagal cadence","Half cadence"],
+            correcta: 3
+        },
+        {
+            pregunta: "What occurs in a 'deceptive cadence' to create its characteristic suspended effect?",
+            opciones: ["It resolves directly to the I (tonic) degree from the dominant.","It consists solely of the IV (subdominant) degree.","The progression moves from the V (dominant) to the VI (submediant).","The melody ends abruptly on the tonic degree."],
+            correcta: 3
+        },
+        {
+            pregunta: "How is a 'symmetrical period' defined in Classical musical structure?",
+            opciones: ["It uses an unequal number of bars in its component sections.","It consists of a single phrase that repeats exactly.","It is subdivided into sections with an equal number of bars.","It ends with an inconclusive cadence in both phrases."],
+            correcta: 3
         }
     ]
 };
