@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel — do not edit manually.
-// Last updated: 2026-05-02T12:09:06.633Z
+// Last updated: 2026-05-02T12:15:55.985Z
 
 const preguntas = {
     dibujar: [
@@ -187,6 +187,76 @@ const preguntas = {
             pregunta: "How is a 'symmetrical period' defined in Classical musical structure?",
             opciones: ["It uses an unequal number of bars in its component sections.","It consists of a single phrase that repeats exactly.","It is subdivided into sections with an equal number of bars.","It ends with an inconclusive cadence in both phrases."],
             correcta: 3
+        },
+        {
+            pregunta: "Which Romantic characteristic describes composers using elements from their country's folk traditions to express a cultural identity?",
+            opciones: ["Creative Individualism","Nationalism","Programmatic music","Virtuosity"],
+            correcta: 2
+        },
+        {
+            pregunta: "Which of the following works is cited as a famous example of programmatic music in the Romantic period?",
+            opciones: ["Nocturne in E flat by Frédéric Chopin","Symphonie Fantastique by Hector Berlioz","La verbena de la paloma by Tomás Bretón","The Ring of the Nibelung by Richard Wagner"],
+            correcta: 2
+        },
+        {
+            pregunta: "Which smaller musical form is described as a lively Polish folk dance in 3/4 time with a strong accent on the second beat?",
+            opciones: ["Nocturne","Etude","Waltz","Mazurka"],
+            correcta: 4
+        },
+        {
+            pregunta: "In the context of German Romantic Opera, what is a 'Leitmotiv'?",
+            opciones: ["A group of songs that share a common theme","A musical theme used to represent characters or ideas","A short, one-act theatrical performance with music","A style of highly decorated and expressive singing"],
+            correcta: 2
+        },
+        {
+            pregunta: "What distinguishes the Spanish 'Zarzuela' from other vocal genres described in the material?",
+            opciones: ["It focuses exclusively on medieval myths and German legends.","It completely removes the distinction between arias and recitatives.","It consists of one voice accompanied only by an expressive piano.","It uses street slang and regional folklore to depict daily life."],
+            correcta: 4
+        },
+        {
+            pregunta: "The 'Lied' genre is typically defined as vocal chamber music that combines music with:",
+            opciones: ["Street slang and dialects","Orchestral ballet","Poetry","Virtuosic violin solos"],
+            correcta: 3
+        },
+        {
+            pregunta: "Which composer is specifically noted for mixing classical structure with Romantic emotion in his symphonies and concertos?",
+            opciones: ["Frédéric Chopin","Richard Wagner","Johannes Brahms","Franz Schubert"],
+            correcta: 3
+        },
+        {
+            pregunta: "According to the tonal system, what is the 'tonic'?",
+            opciones: ["The main note of a scale that sets the key","The set of accidentals placed after the clef","A sign that cancels the effect of a sharp or flat","A scale that contains only five notes"],
+            correcta: 1
+        },
+        {
+            pregunta: "What is the interval pattern for a Major Scale (M)?",
+            opciones: ["Tone–Semitone–Tone–Tone–Semitone–Tone–Tone","Semitone–Semitone–Semitone–Semitone–Semitone–Semitone","Tone–Tone–Semitone–Tone–Tone–Tone–Semitone","Tone–Tone–Tone–Semitone–Tone–Tone–Semitone"],
+            correcta: 3
+        },
+        {
+            pregunta: "Which sign is used to raise a note's pitch by a half tone?",
+            opciones: ["The natural (♮)","The flat (♭)","The sharp (♯)","The tonic"],
+            correcta: 3
+        },
+        {
+            pregunta: "What is the purpose of a key signature (armadura) in music notation?",
+            opciones: ["To define the rhythm and time signature of the work","To avoid writing accidentals repeatedly throughout the piece","To indicate the speed at which the music should be played","To list all twelve notes of the chromatic scale"],
+            correcta: 2
+        },
+        {
+            pregunta: "According to the provided material, what is the correct order of sharps in a key signature?",
+            opciones: ["SI-MI-LA-RE-SOL-DO-FA","SOL-RE-LA-MI-SI-FA-DO","DO-RE-MI-FA-SOL-LA-SI","FA-DO-SOL-RE-LA-MI-SI"],
+            correcta: 4
+        },
+        {
+            pregunta: "Which scale is characterized by having only 5 notes and appearing in many different cultures?",
+            opciones: ["Pentatonic scale","Chromatic scale","Minor scale","Major scale"],
+            correcta: 1
+        },
+        {
+            pregunta: "Who is noted as a Russian composer famous for ballets like 'Swan Lake' and 'The Nutcracker'?",
+            opciones: ["Frédéric Chopin","Pyotr Ilyich Tchaikovsky","Niccolò Paganini","Franz Schubert"],
+            correcta: 2
         }
     ]
 };
