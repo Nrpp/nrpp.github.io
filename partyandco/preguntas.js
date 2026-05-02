@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel — do not edit manually.
-// Last updated: 2026-05-02T12:15:55.985Z
+// Last updated: 2026-05-02T12:49:22.316Z
 
 const preguntas = {
     dibujar: [
@@ -257,6 +257,66 @@ const preguntas = {
             pregunta: "Who is noted as a Russian composer famous for ballets like 'Swan Lake' and 'The Nutcracker'?",
             opciones: ["Frédéric Chopin","Pyotr Ilyich Tchaikovsky","Niccolò Paganini","Franz Schubert"],
             correcta: 2
+        },
+        {
+            pregunta: "What are the commonly accepted dates for the Baroque period in music history?",
+            opciones: ["1750–1820","1600–1750","1650–1800","1450–1600"],
+            correcta: 2
+        },
+        {
+            pregunta: "In the Baroque concept of 'hierarchy of voices,' which voice typically carries the main melody?",
+            opciones: ["All voices equally (polyphony)","The bass voice","The inner voices (alto and tenor)","The soprano or upper voice"],
+            correcta: 4
+        },
+        {
+            pregunta: "Which musical element consists of a written bass line and indications for chords, allowing musicians to improvise harmony?",
+            opciones: ["Ostinato Bass","Basso Continuo","Aria","Counterpoint"],
+            correcta: 2
+        },
+        {
+            pregunta: "Who were the 'stars of the stage' during the Baroque period, known for their powerful high voices and amazing technique?",
+            opciones: ["Falsettists","Tenors","Sopranos","Castrati"],
+            correcta: 4
+        },
+        {
+            pregunta: "Where did Opera emerge around the year 1600?",
+            opciones: ["Vienna, Austria","London, England","Florence, Italy","Paris, France"],
+            correcta: 3
+        },
+        {
+            pregunta: "In an opera, which part is a declamatory style of singing intended to advance the narrative or action?",
+            opciones: ["Recitative","Aria","Overture","Chorus"],
+            correcta: 1
+        },
+        {
+            pregunta: "Which Baroque vocal form is similar to opera in its use of soloists and choir but typically addresses religious themes and lacks staging?",
+            opciones: ["Oratorio","The Passion","Cantata","Suite"],
+            correcta: 1
+        },
+        {
+            pregunta: "What is the primary difference between the 'concertino' and the 'ripieno' in a Concerto Grosso?",
+            opciones: ["The concertino is a small group of soloists, while the ripieno is the full orchestra.","The concertino consists of woodwinds and the ripieno consists of strings.","The concertino is the choir and the ripieno is the orchestra.","The concertino plays the melody and the ripieno plays only the basso continuo."],
+            correcta: 1
+        },
+        {
+            pregunta: "Which keyboard instrument creates sound by using quills to pluck strings?",
+            opciones: ["Organ","Harpsichord","Clavichord","Piano"],
+            correcta: 2
+        },
+        {
+            pregunta: "According to the source material, what are 'harmonic intervals'?",
+            opciones: ["Intervals that always sound relaxed.","Intervals that move only in an ascending direction.","Notes that are heard one after another.","Notes that are heard simultaneously."],
+            correcta: 4
+        },
+        {
+            pregunta: "Which of the following describes a 'dissonant' interval?",
+            opciones: ["Any interval consisting of more than three tones.","An interval perceived as relaxed, such as an octave.","An interval perceived as tense, such as a major second.","A perfect fifth."],
+            correcta: 3
+        },
+        {
+            pregunta: "How is a major triad constructed in the Western tonal system?",
+            opciones: ["A major third and a perfect fifth added to the root note.","A minor third and a perfect fifth added to the root note.","Three notes played successively one after another.","A major second and a minor seventh."],
+            correcta: 1
         }
     ]
 };
