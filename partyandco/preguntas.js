@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
-// Managed by Beat Battle Admin Panel — do not edit manually.
-// Last updated: 2026-05-02T12:49:22.316Z
+// Managed by Beat Battle Admin Panel.
+// Last updated: 2026-05-03T20:26:12.343Z
 
 const preguntas = {
     dibujar: [
@@ -12,12 +12,36 @@ const preguntas = {
         "Draw a conductor with a baton"
     ],
     mimica: [
-        "Mime playing the piano",
-        "Mime a concert performance",
-        "Mime being sad like Chopin",
-        "Mime playing the violin",
-        "Mime conducting an orchestra",
-        "Mime playing the drums"
+        "Playing a lute",
+        "Singing Gregorian chant in a monastery",
+        "A knight dancing at a medieval party",
+        "Ringing church bells",
+        "Writing music by hand on parchment",
+        "A group singing in a cathedral",
+        "Playing a harp in the Middle Ages",
+        "Dancing a Renaissance court dance",
+        "Painting while music is playing",
+        "Playing a recorder",
+        "A king watching musicians perform",
+        "Singing in a choir with many voices",
+        "Playing a violin in a palace",
+        "Conducting a small orchestra",
+        "Playing the harpsichord",
+        "A composer writing a symphony",
+        "Bowing after a performance",
+        "A fancy ball with classical music",
+        "Playing a flute solo",
+        "Listening carefully to a concert",
+        "A dramatic opera scene",
+        "A singer hitting a very high note",
+        "Playing the piano with emotion",
+        "A romantic couple dancing slowly",
+        "A composer feeling inspired",
+        "Clapping after a concert",
+        "A musician practicing for hours",
+        "Playing music very loudly (forte)",
+        "Playing music very softly (piano)",
+        "An orchestra playing together"
     ],
     definicion: [
         "What is a nocturne?",
