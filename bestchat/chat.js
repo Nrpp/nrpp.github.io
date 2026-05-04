@@ -13,7 +13,7 @@ var firebaseConfig = {
 // ─── NVIDIA API ────────────────────────────────────────────────────────────
 // ⚠️  Esta key es visible en el código fuente (F12). Lo sabemos y es aceptado.
 // Para protegerla en el futuro, usa un Cloudflare Worker como proxy.
-var NVIDIA_API_KEY = "TU_NVIDIA_API_KEY_AQUI"; // ← pega aquí tu key de build.nvidia.com
+var NVIDIA_API_KEY = "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"; // ← pega aquí tu key de build.nvidia.com
 var NVIDIA_MODEL   = "meta/llama-3.1-8b-instruct"; // modelo gratuito de NVIDIA NIM
 var NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
 var AI_NICK        = "🤖 IA";
