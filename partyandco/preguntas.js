@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel.
-// Last updated: 2026-05-05T20:16:40.898Z
+// Last updated: 2026-05-05T20:20:06.405Z
 
 const preguntas = {
     dibujar: [
