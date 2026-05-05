@@ -19,10 +19,63 @@
             <h2 class="modal-title">How to Play</h2>
             <p class="modal-subtitle">Beat Battle — The Ultimate Music Party Game</p>
         </div>
-        <div class="modal-body" id="instructionsContent">
-            <!-- Filled by JS from instructions data -->
-        </div>
+        <div class="modal-body" id="instructionsContent"></div>
         <button class="modal-start-btn" onclick="closeInstructions()">Let's Play! 🎲</button>
+    </div>
+</div>
+
+<!-- ===== DICE MODAL ===== -->
+<div id="diceModal" class="dice-modal-overlay" onclick="handleDiceOverlayClick(event)">
+    <div class="dice-modal-box">
+        <button class="modal-close" onclick="closeDice()">✕</button>
+        <div class="dice-title">Roll the Dice</div>
+
+        <div class="dice-scene" onclick="rollDice()">
+            <div class="dice-cube" id="diceCube">
+                <!-- Face 1 -->
+                <div class="face face-front">
+                    <span class="dot c"></span>
+                </div>
+                <!-- Face 2 -->
+                <div class="face face-back">
+                    <span class="dot tl"></span>
+                    <span class="dot br"></span>
+                </div>
+                <!-- Face 3 -->
+                <div class="face face-right">
+                    <span class="dot tl"></span>
+                    <span class="dot c"></span>
+                    <span class="dot br"></span>
+                </div>
+                <!-- Face 4 -->
+                <div class="face face-left">
+                    <span class="dot tl"></span>
+                    <span class="dot tr"></span>
+                    <span class="dot bl"></span>
+                    <span class="dot br"></span>
+                </div>
+                <!-- Face 5 -->
+                <div class="face face-top">
+                    <span class="dot tl"></span>
+                    <span class="dot tr"></span>
+                    <span class="dot c"></span>
+                    <span class="dot bl"></span>
+                    <span class="dot br"></span>
+                </div>
+                <!-- Face 6 -->
+                <div class="face face-bottom">
+                    <span class="dot tl"></span>
+                    <span class="dot tr"></span>
+                    <span class="dot ml"></span>
+                    <span class="dot mr"></span>
+                    <span class="dot bl"></span>
+                    <span class="dot br"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dice-result" id="diceResult">Tap the dice to roll!</div>
+        <button class="dice-roll-btn" onclick="rollDice()">🎲 Roll!</button>
     </div>
 </div>
 
@@ -55,7 +108,10 @@
 
 <div id="preguntaContainer"></div>
 
-<button class="reset-btn" onclick="resetGame()">🔄 Reset Game</button>
+<div class="bottom-bar">
+    <button class="reset-btn" onclick="resetGame()">🔄 Reset Game</button>
+    <button class="dice-fab" onclick="openDice()">🎲 Roll Dice</button>
+</div>
 
 <script src="preguntas.js"></script>
 <script src="instructions.js" onerror="void(0)"></script>

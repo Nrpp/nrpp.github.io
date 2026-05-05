@@ -256,3 +256,70 @@ function checkRespuesta(btn, seleccion, correcta) {
         document.getElementById("preguntaContainer").innerHTML = "";
     }, 5000);
 }
+
+// ===================== DICE =====================
+// Rotation presets so the correct face is always front after roll
+// CSS: front=1, back=2, right=3, left=4, top=5, bottom=6
+const DICE_ROTATIONS = {
+    1: { x:   0, y:   0 },
+    2: { x:   0, y: 180 },
+    3: { x:   0, y: -90 },
+    4: { x:   0, y:  90 },
+    5: { x: -90, y:   0 },
+    6: { x:  90, y:   0 }
+};
+
+let diceRolling = false;
+let diceCurrentX = 0;
+let diceCurrentY = 0;
+let diceSpinCount = 0; // accumulate full spins so it never resets
+
+function openDice() {
+    document.getElementById("diceModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+
+function closeDice() {
+    document.getElementById("diceModal").classList.remove("open");
+    document.body.style.overflow = "";
+}
+
+function handleDiceOverlayClick(e) {
+    if (e.target === document.getElementById("diceModal")) closeDice();
+}
+
+function rollDice() {
+    if (diceRolling) return;
+    diceRolling = true;
+
+    const cube   = document.getElementById("diceCube");
+    const result = document.getElementById("diceResult");
+    const value  = Math.floor(Math.random() * 6) + 1;
+
+    result.textContent = "Rolling...";
+    result.style.color = "rgba(255,255,255,0.4)";
+    result.classList.remove("dice-show");
+
+    // Tumbling spin: add multiple full 360s + land on correct face
+    const target = DICE_ROTATIONS[value];
+    // Add 3 full spins (1080°) on top of accumulated rotation to ensure always-forward spin
+    diceSpinCount += 3;
+    const finalX = target.x + (diceSpinCount * 360);
+    const finalY = target.y + (diceSpinCount * 360);
+
+    cube.style.transition = "transform 1.1s cubic-bezier(0.25, 0.1, 0.25, 1.6)";
+    cube.style.transform  = `rotateX(${finalX}deg) rotateY(${finalY}deg)`;
+
+    // Store so next roll continues from here without resetting
+    diceCurrentX = finalX;
+    diceCurrentY = finalY;
+
+    setTimeout(() => {
+        const labels = ["", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX"];
+        const emojis = ["", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣"];
+        result.innerHTML = `${emojis[value]} <span style="font-size:28px;font-weight:900;letter-spacing:3px;">${value}</span> <span style="font-size:13px;opacity:0.6;">${labels[value]}</span>`;
+        result.style.color = "#f0c040";
+        result.classList.add("dice-show");
+        diceRolling = false;
+    }, 1150);
+}

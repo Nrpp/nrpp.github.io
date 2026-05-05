@@ -602,3 +602,213 @@ h1 {
     .options-grid { grid-template-columns:1fr; }
     .admin-body { padding:25px 15px; }
 }
+
+/* ===================== BOTTOM BAR ===================== */
+.bottom-bar {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    padding: 0 20px;
+}
+
+/* Override reset-btn margin since it's now in bottom-bar */
+.bottom-bar .reset-btn {
+    margin-top: 0;
+}
+
+/* ===================== DICE FAB BUTTON ===================== */
+.dice-fab {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    letter-spacing: 2px;
+    padding: 13px 28px;
+    background: linear-gradient(135deg, #f0c040, #ffe599);
+    color: #1a1000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.25s;
+    box-shadow: 0 6px 24px rgba(240,192,64,0.35);
+}
+
+.dice-fab:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 12px 35px rgba(240,192,64,0.55);
+}
+
+.dice-fab:active {
+    transform: scale(0.97);
+}
+
+/* ===================== DICE MODAL OVERLAY ===================== */
+.dice-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.dice-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+/* ===================== DICE MODAL BOX ===================== */
+.dice-modal-box {
+    background: linear-gradient(160deg, #12073a, #0a0418);
+    border: 1.5px solid rgba(240,192,64,0.25);
+    border-radius: 28px;
+    width: 100%;
+    max-width: 380px;
+    padding: 45px 30px 38px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 60px rgba(240,192,64,0.06);
+    animation: diceModalIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes diceModalIn {
+    from { transform: scale(0.88) translateY(30px); opacity: 0; }
+    to   { transform: scale(1)    translateY(0);    opacity: 1; }
+}
+
+.dice-title {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    margin-bottom: 36px;
+    text-transform: uppercase;
+}
+
+/* ===================== 3D DICE SCENE ===================== */
+.dice-scene {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 32px;
+    perspective: 500px;
+    cursor: pointer;
+}
+
+.dice-cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(0deg) rotateY(0deg);
+    transition: transform 1.1s cubic-bezier(0.25, 0.1, 0.25, 1.6);
+}
+
+/* ===================== DICE FACES ===================== */
+.face {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff, #e8e8e8);
+    border: 3px solid rgba(255,255,255,0.9);
+    box-shadow:
+        inset 0 2px 6px rgba(255,255,255,0.8),
+        inset 0 -2px 6px rgba(0,0,0,0.15),
+        0 0 30px rgba(240,192,64,0.2);
+    display: grid;
+    padding: 18px;
+    box-sizing: border-box;
+    grid-template-areas:
+        "tl . tr"
+        "ml c mr"
+        "bl . br";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.face-front  { transform: translateZ(65px); }
+.face-back   { transform: rotateY(180deg) translateZ(65px); }
+.face-right  { transform: rotateY(90deg)  translateZ(65px); }
+.face-left   { transform: rotateY(-90deg) translateZ(65px); }
+.face-top    { transform: rotateX(90deg)  translateZ(65px); }
+.face-bottom { transform: rotateX(-90deg) translateZ(65px); }
+
+/* ===================== DOTS ===================== */
+.dot {
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle at 35% 35%, #444, #1a1a1a);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.1);
+    align-self: center;
+    justify-self: center;
+}
+
+.dot.tl { grid-area: tl; }
+.dot.tr { grid-area: tr; }
+.dot.ml { grid-area: ml; }
+.dot.mr { grid-area: mr; }
+.dot.c  { grid-area: c;  }
+.dot.bl { grid-area: bl; }
+.dot.br { grid-area: br; }
+
+/* ===================== DICE RESULT ===================== */
+.dice-result {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: color 0.3s;
+}
+
+.dice-result.dice-show {
+    animation: diceResultPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes diceResultPop {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+/* ===================== DICE ROLL BUTTON ===================== */
+.dice-roll-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    letter-spacing: 3px;
+    padding: 15px 40px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: #1a1000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.25s;
+    box-shadow: 0 6px 24px rgba(240,192,64,0.4);
+    width: 100%;
+}
+
+.dice-roll-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(240,192,64,0.6);
+}
+
+.dice-roll-btn:active {
+    transform: scale(0.97);
+}
+
