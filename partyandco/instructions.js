@@ -1,5 +1,5 @@
 // Beat Battle — Instructions
-// Managed by Admin Panel. Last updated: 2026-05-03T20:26:13.628Z
+// Managed by Admin Panel. Last updated: 2026-05-05T18:43:15.400Z
 
 const instructions = [
     {
