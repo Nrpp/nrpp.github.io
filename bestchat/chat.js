@@ -15,7 +15,7 @@ var firebaseConfig = {
 // Para protegerla en el futuro, usa un Cloudflare Worker como proxy.
 var NVIDIA_API_KEY = "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"; // ← pega aquí tu key de build.nvidia.com
 var NVIDIA_MODEL   = "meta/llama-3.1-8b-instruct"; // modelo gratuito de NVIDIA NIM
-var NVIDIA_API_URL = "https://integrate.api.nvidia.com/v1/chat/completions";
+var NVIDIA_API_URL = "https://nvidia-proxy.nicolasrevillap.workers.dev/";
 var AI_NICK        = "🤖 IA";
 var AI_TRIGGER     = "@ai"; // escribe @ai al inicio del mensaje para invocar la IA
 
