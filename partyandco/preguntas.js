@@ -1,6 +1,6 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel.
-// Last updated: 2026-05-05T18:43:14.141Z
+// Last updated: 2026-05-05T20:16:40.898Z
 
 const preguntas = {
     dibujar: [
@@ -68,12 +68,31 @@ const preguntas = {
         "An orchestra playing together"
     ],
     definicion: [
-        "What is a nocturne?",
-        "Define Romantic music",
-        "What is a music score?",
-        "What is counterpoint?",
-        "Define polyphony",
-        "What is a cadenza?"
+        "Medieval - religion, church, simple, ancient",
+        "Chant - singing, church, one voice, calm",
+        "Monophony - one melody, single line, no harmony",
+        "Renaissance - rebirth, art, culture, Europe",
+        "Polyphony - many voices, harmony, complex, layers",
+        "Harmony - chords, notes together, pleasant sound",
+        "Baroque - ornate, dramatic, 1600s, contrast",
+        "Ornamentation - decoration, extra notes, embellish",
+        "Concerto - soloist, orchestra, contrast, instrument",
+        "Orchestra - group, instruments, musicians, large",
+        "Composer - person, writes music, creator",
+        "Instrument - tool, music, sound, play",
+        "Melody - tune, main idea, singable",
+        "Rhythm - beat, timing, pattern",
+        "Classical - balance, clear, simple, 1700s",
+        "Sonata - piece, instruments, movements",
+        "Symphony - orchestra, large work, movements",
+        "Romanticism - emotion, expression, 1800s",
+        "Emotion - feelings, expression, mood",
+        "Piano - keyboard, instrument, soft/loud",
+        "Opera - singing, theatre, drama, stage",
+        "Dynamics - volume, loud, soft, contrast",
+        "Tempo - speed, fast, slow",
+        "Program music - story, idea, descriptive",
+        "Nationalism - country, identity, culture"
     ],
     test: [
         {
