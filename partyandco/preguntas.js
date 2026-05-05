@@ -1,15 +1,39 @@
 // NOTE: "correcta" uses 1-based indexing (1 = first option).
 // Managed by Beat Battle Admin Panel.
-// Last updated: 2026-05-03T20:26:12.343Z
+// Last updated: 2026-05-05T18:43:14.141Z
 
 const preguntas = {
     dibujar: [
-        "Draw a piano",
-        "Draw Chopin",
-        "Draw a music score / sheet music",
-        "Draw a violin",
-        "Draw a music note",
-        "Draw a conductor with a baton"
+        "A group of monks singing Gregorian chant",
+        "A choir singing in unison (monody)",
+        "Someone singing a cappella (no instruments)",
+        "A musical sheet with neumatic notation",
+        "A monastery in the Middle Ages",
+        "A cathedral with singers inside",
+        "Two voices singing together (organum)",
+        "A choir with many independent voices (polyphony)",
+        "A troubadour playing and singing about love",
+        "A jongleur (minstrel) performing in a town",
+        "Medieval musical instruments (lute, flute, tambourine…)",
+        "A dance in a medieval celebration",
+        "A vihuela being played",
+        "A scene from Cantigas de Santa María",
+        "A king (Alfonso X) writing music",
+        "A group of singers with different roles (soprano, tenor, bass)",
+        "A printing press producing music sheets (Renaissance)",
+        "A chapel choir in the Renaissance",
+        "A composer writing a motet",
+        "A madrigal performance with several singers",
+        "A harpsichord",
+        "A viola da gamba",
+        "A recorder (flute)",
+        "A polyphonic choir with 4+ voices",
+        "A villancico performance in a village",
+        "A sound wave showing high vs low pitch",
+        "A sound wave showing loud vs soft (intensity)",
+        "Different instruments playing the same note (timbre)",
+        "A harmonic series (one note with smaller waves above)",
+        "A person singing with emotion (voice as instrument)"
     ],
     mimica: [
         "Playing a lute",
