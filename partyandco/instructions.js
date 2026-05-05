@@ -1,5 +1,5 @@
 // Beat Battle — Instructions
-// Managed by Admin Panel. Last updated: 2026-05-05T20:16:42.205Z
+// Managed by Admin Panel. Last updated: 2026-05-05T20:20:07.670Z
 
 const instructions = [
     {
@@ -20,7 +20,7 @@ const instructions = [
     {
         "icon": "🧠",
         "title": "Describe",
-        "text": "Describe the word to your teammates without saying it. No gestures — words only!"
+        "text": "Describe the word to your teammates without saying it. No gestures — words only! You will recieve a word that you need to describe with the 4 words that you are given."
     },
     {
         "icon": "❓",
