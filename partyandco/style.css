@@ -135,10 +135,10 @@ h1 {
 
 .cat-btn:hover { transform: translateY(-6px) scale(1.03); }
 
-.cat-btn.paint       { background: linear-gradient(135deg,#ff6b6b,#ee5a24); box-shadow:0 8px 30px rgba(238,90,36,0.4); }
+.cat-btn.paint       { background: linear-gradient(135deg, #ff8e8e, #ff0084); box-shadow:0 8px 30px rgba(238,90,36,0.4); }
 .cat-btn.paint:hover { box-shadow:0 16px 50px rgba(238,90,36,0.7); border-color:#ff9f7f; }
 
-.cat-btn.mimic       { background: linear-gradient(135deg,#a29bfe,#6c5ce7); box-shadow:0 8px 30px rgba(108,92,231,0.4); }
+.cat-btn.mimic       { background: linear-gradient(135deg, #9093ff, #00ceff); box-shadow:0 8px 30px rgba(108,92,231,0.4); }
 .cat-btn.mimic:hover { box-shadow:0 16px 50px rgba(108,92,231,0.7); border-color:#c9b9ff; }
 
 .cat-btn.description       { background: linear-gradient(135deg,#55efc4,#00b894); box-shadow:0 8px 30px rgba(0,184,148,0.4); }
