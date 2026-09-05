@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pilla-pilla</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- PANTALLA: INICIO -->
+    <section id="screen-home" class="screen active">
+      <h1>🏃 Pilla-pilla</h1>
+      <p class="subtitle">Juega al pilla-pilla en la vida real. La web coordina quién pilla a quién.</p>
+
+      <div class="card">
+        <h2>Crear sala</h2>
+        <label>Tu nombre
+          <input type="text" id="create-name" maxlength="24" placeholder="Ej: Laura" />
+        </label>
+        <label>Nº de personas que la ligan al empezar
+          <select id="create-taggers">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </label>
+        <button id="btn-create" class="btn primary">Crear sala</button>
+      </div>
+
+      <div class="card">
+        <h2>Unirse a una sala</h2>
+        <label>Código de sala
+          <input type="text" id="join-code" maxlength="5" placeholder="ABCDE" autocapitalize="characters" />
+        </label>
+        <label>Tu nombre
+          <input type="text" id="join-name" maxlength="24" placeholder="Ej: Marcos" />
+        </label>
+        <button id="btn-join" class="btn secondary">Unirse</button>
+      </div>
+
+      <p id="home-error" class="error"></p>
+    </section>
+
+    <!-- PANTALLA: LOBBY -->
+    <section id="screen-lobby" class="screen">
+      <h1>Sala <span id="lobby-code"></span></h1>
+      <p class="subtitle">Comparte el código con el resto de jugadores para que se unan.</p>
+
+      <div class="card">
+        <h2>Jugadores (<span id="lobby-count">0</span>)</h2>
+        <ul id="lobby-players" class="player-list"></ul>
+      </div>
+
+      <div id="host-controls" class="card hidden">
+        <h2>Ajustes del anfitrión</h2>
+        <label>Nº de personas que la ligan
+          <select id="lobby-taggers">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+          </select>
+        </label>
+        <button id="btn-start" class="btn primary">🚀 Empezar partida</button>
+      </div>
+      <p id="lobby-hint" class="hint">Esperando a que el anfitrión empiece la partida…</p>
+
+      <button id="btn-leave-lobby" class="btn ghost">Salir de la sala</button>
+    </section>
+
+    <!-- PANTALLA: JUEGO -->
+    <section id="screen-game" class="screen">
+      <div id="role-banner" class="role-banner">
+        <span id="role-text">—</span>
+      </div>
+
+      <div class="card">
+        <h2>Jugadores</h2>
+        <ul id="game-players" class="player-list"></ul>
+      </div>
+
+      <div id="tag-controls" class="card hidden">
+        <h2>¿A quién has pillado?</h2>
+        <ul id="tag-targets" class="player-list"></ul>
+      </div>
+
+      <div id="game-host-controls" class="card hidden">
+        <button id="btn-end-game" class="btn danger">🏁 Terminar partida</button>
+      </div>
+    </section>
+
+    <!-- PANTALLA: FIN -->
+    <section id="screen-end" class="screen">
+      <h1>🏁 ¡Partida terminada!</h1>
+      <div class="card">
+        <h2>Clasificación (quien más aguantó, arriba)</h2>
+        <ol id="end-ranking" class="player-list"></ol>
+      </div>
+      <div id="end-host-controls" class="hidden">
+        <button id="btn-play-again" class="btn primary">🔁 Jugar otra vez</button>
+      </div>
+      <button id="btn-leave-end" class="btn ghost">Salir de la sala</button>
+    </section>
+
+  </div>
+
+  <!-- Aviso de "pillado" en tiempo real -->
+  <div id="tag-toast" class="tag-toast hidden">
+    <p id="tag-toast-text"></p>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
