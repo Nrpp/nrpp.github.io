@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NicolasOS</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="fondo">
+        <div class="montana montana1"></div>
+        <div class="montana montana2"></div>
+        <div class="montana montana3"></div>
+    </div>
+
+    <div class="top-bar">
+        <div class="logo">NicolasOS</div>
+        <div class="estado">
+            <span class="punto-verde"></span> Online
+        </div>
+    </div>
+
+    <div class="contenedor">
+        <div class="sidebar">
+            <div class="menu-item activo">Home</div>
+            <div class="menu-item">Projects</div>
+            <div class="menu-item">Lab</div>
+            <div class="menu-item">Now</div>
+            <div class="menu-item">Blog</div>
+            <div class="menu-item">Terminal</div>
+            <div class="menu-item">Secrets</div>
+        </div>
+
+        <div class="columna-media">
+            <div class="ventana">
+                <div class="ventana-header">
+                    <span>Welcome</span>
+                    <span class="botones-ventana">
+                        <button onclick="cerrarVentana('welcome')">X</button>
+                    </span>
+                </div>
+                <div class="ventana-contenido" id="welcome">
+                    <div class="welcome-texto">
+                        <h1>Welcome to<br>NicolasOS_</h1>
+                        <p>You somehow found my corner of the internet</p>
+                        <p>I'm Nicolás. I like building things (like programming and that type of things), breaking them
+                            (not on purpose) and figuring out why I broke them.</p>
+                        <p>This website is a colection of my personal proyects and things I'm working on, apart from
+                            some of my personal life :).</p>
+                        <p class="nota-escrita">Small steps.<br>Big projects.</p>
+                    </div>
+                    <div class="status-box">
+                        <p class="status-titulo">CURRENT STATUS</p>
+                        <p class="status-valor"><span class="punto punto-verde"></span> Building something</p>
+                        <hr>
+                        <p class="status-titulo">CURRENT OBSESION</p>
+                        <p class="status-valor">Raspberry Pis</p>
+                        <hr>
+                        <p class="status-titulo">CURRENTLY LEARNING</p>
+                        <p class="status-valor">&lt;/&gt; Web development</p>
+                        <hr>
+                        <p class="status-titulo">LAST PROYECT</p>
+                        <p class="status-valor">AlexOS</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ventana">
+                <div class="ventana-header">
+                    <span>Featured Projects</span>
+                    <span class="botones-ventana">
+                        <button onclick="cerrarVentana('projects')">X</button>
+                    </span>
+                </div>
+                <div class="ventana-contenido" id="projects">
+                    <div class="proyectos-grid">
+                        <div class="proyecto-card">
+                            <div class="proyecto-icono">
+                                <img src="images/demo.gif" alt="Foto del proyecto MagicMirror">
+                            </div>
+                            <h3>MagicMirror</h3>
+                            <p>A Raspberry Pi dashboard with calendar, photos and more.</p>
+                            <a href="#">View project -&gt;</a>
+                        </div>
+                        <div class="proyecto-card">
+                            <div class="proyecto-icono">
+                                <img src="images/not-my-alexos.webp"
+                                    alt="Foto de Google porque le tengo que tomar captura y ahora no puedo :)">
+                            </div>
+                            <h3>AlexOS</h3>
+                            <p>A personal interface for my Raspberry Pi. My own little OS</p>
+                            <a href="#">View project -&gt;</a>
+                        </div>
+                        <div class="proyecto-card">
+                            <div class="proyecto-icono">
+                                <img src="images/Python-logo-notext.webp" alt="Foto del logo de Python">
+                            </div>
+                            <h3>Python Projects</h3>
+                            <p>Small projects, scripts and experiments with Python.</p>
+                            <a href="#">View project -&gt;</a>
+                        </div>
+                        <div class="proyecto-card">
+                            <div class="proyecto-icono">
+                                <img src="images/Home_Assistant_Logo.svg" alt="Foto de Home Assistant">
+                            </div>
+                            <h3>Home Automation</h3>
+                            <p>Home Assistant, Google Home, automations and smart stuff.</p>
+                            <a href="#">View project -&gt;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columna-derecha">
+            <div class="post-it">
+                <p class="post-it-titulo">/now</p>
+                <ul>
+                    <li>School (currently TY)</li>
+                    <l>Building AlexOS</l>
+                    <l>Learning web dev + AI</l>
+                    <li>Sports (swimming, tennis, ...)</li>
+                </ul>
+                <p class="post-it-final">-&gt; Keep building</p>
+                <span class="carita">:)</span>
+            </div>
+            <div class="ventana">
+                <div class="ventana-header">
+                    <span>Lab</span>
+                </div>
+                <div class="ventana-contenido">
+                    <div class="lab-item">
+                        <span class="punto punto-verde"></span>
+                        <div class="lab-texto">
+                            <p>Raspberry Pi Projects</p>
+                            <small>MagicMirror, AlexOS, ...</small>
+                        </div>
+                        <span class="lab-estado verde">Working</span>
+                    </div>
+                    <div class="lab-item">
+                        <span class="punto punto-naranja"></span>
+                        <div class="lab-texto">
+                            <p>AI Experiments</p>
+                            <small>LM Studio, OpenClaw, ...</small>
+                        </div>
+                        <span class="lab-estado naranja">Experimental</span>
+                    </div>
+                    <div class="lab-item">
+                        <span class="punto punto-verde"></span>
+                        <div class="lab-texto">
+                            <p>Home Automation</p>
+                            <small>Home Assistant, Google Home, ...</small>
+                        </div>
+                        <span class="lab-estado verde">Working</span>
+                    </div>
+                    <div class="lab-item">
+                        <span class="punto punto-verde"></span>
+                        <div class="lab-texto">
+                            <p>Hackclub projects</p>
+                            <small>Online Piano, Personal Portfolio, ...</small>
+                        </div>
+                        <span class="lab-estado verde">Working</span>
+                    </div>
+                    <div class="lab-item">
+                        <span class="punto punto-rojo"></span>
+                        <div class="lab-texto">
+                            <p>Electronics</p>
+                            <small>Random stuff that doesn't work (yet)</small>
+                        </div>
+                        <span class="lab-estado rojo">Broken</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-bar">
+        <span>NicolasOS</span>
+        <span>Version 1.0 | Still trying to improve :)</span>
+    </div>
+
+    <script>
+        function cerrarVentana(id) {
+            var ventana = document.getElementById(id);
+            ventana.parentElement.style.display = "none";
+        }
+
+        var items = document.querySelectorAll(".menu-item");
+        for (var i = 0; i < item.lenght; i++) {
+            items[i].addEventListener("click", function () {
+                for (var j = 0; j < items.length; j++) {
+                    items[j].classList.remove("active");
+                }
+            });
+        }
+    </script>
+
+
+</body>
+
+</html>
