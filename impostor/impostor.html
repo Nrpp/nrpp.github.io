@@ -3,287 +3,483 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
-<title>Juego Impostor (Kindle web)</title>
+<title>Impostor</title>
 <style>
-  :root{
-    --bg: #ffffff;
-    --fg: #000000;
-    --accent: #111111;
-    --muted: #666;
-    --big: 42px;
-    --medium: 28px;
-    --small: 18px;
-    --pad: 18px;
-  }
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;}
-  .wrap{box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:18px;height:100%;}
-  header{display:flex;align-items:center;justify-content:space-between;}
-  h1{font-size:var(--big);margin:0;line-height:1;}
-  .muted{color:var(--muted);font-size:var(--small);}
+  /* Diseñado para pantallas e-ink (Kindle): alto contraste, sin animaciones, botones grandes */
+  html,body{margin:0;padding:0;background:#fff;color:#000;
+    font-family:Georgia,"Times New Roman",serif;-webkit-text-size-adjust:100%;}
+  *{box-sizing:border-box;}
+  button{font-family:inherit;color:#000;-webkit-appearance:none;-webkit-tap-highlight-color:transparent;}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 22px 30px;}
 
-  .card{border-radius:8px;padding:16px;background:transparent;border:2px solid #000;box-shadow:none;}
+  /* Cabecera */
+  header{display:table;width:100%;border-bottom:4px solid #000;padding-bottom:12px;margin-bottom:20px;}
+  .title{display:table-cell;vertical-align:middle;font-size:40px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;}
+  .lang{display:table-cell;vertical-align:middle;text-align:right;white-space:nowrap;}
+  .lang button{font-size:20px;font-weight:bold;padding:8px 14px;border:3px solid #000;background:#fff;margin-left:-3px;cursor:pointer;}
+  .lang button.on{background:#000;color:#fff;}
 
-  .controls{display:flex;gap:12px;flex-wrap:wrap;}
-  .control{
-    flex:1 1 120px;
-    min-width:120px;
-    padding:12px;
-    text-align:center;
-    border-radius:10px;
-    font-size:var(--medium);
-    border:2px solid #000;
-    user-select:none;
-    background:#fff;
-  }
+  .screen{display:none;}
+  .screen.active{display:block;}
 
-  .big-center{font-size:48px;font-weight:700;text-align:center;margin-top:8px;}
-  .word-display{font-size:56px;text-align:center;letter-spacing:1px;padding:26px 10px;}
+  /* Bloques de configuración */
+  .block{border:3px solid #000;border-radius:10px;padding:16px 18px;margin-bottom:16px;}
+  .block-title{font-size:22px;font-weight:bold;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px;}
+  .hint{font-size:17px;color:#333;margin-top:10px;line-height:1.35;}
 
-  .btn{
-    display:block;
-    width:100%;
-    padding:18px;
-    border-radius:12px;
-    border:2px solid #000;
-    background:#fff;
-    font-size:28px;
-    text-align:center;
-    cursor:pointer;
-    user-select:none;
-  }
-  .row{display:flex;gap:12px;}
+  /* Contadores +/- */
+  .stepper{display:table;width:100%;}
+  .stepper > *{display:table-cell;vertical-align:middle;}
+  .step-btn{width:74px;height:74px;font-size:42px;font-weight:bold;border:3px solid #000;border-radius:10px;background:#fff;cursor:pointer;line-height:1;}
+  .step-btn:disabled{border-style:dashed;color:#999;}
+  .step-val{text-align:center;font-size:52px;font-weight:bold;}
 
-  label{font-size:18px;display:block;margin-bottom:6px;}
-  input[type="number"]{
-    width:100%;
-    padding:10px;
-    font-size:20px;
-    border-radius:8px;
-    border:2px solid #000;
-    background:#fff;
-  }
+  /* Selector de modo de palabra */
+  .seg{width:100%;border:3px solid #000;border-radius:10px;overflow:hidden;}
+  .seg:after{content:"";display:block;clear:both;}
+  .seg button{float:left;width:50%;padding:16px 6px;font-size:21px;font-weight:bold;border:0;background:#fff;cursor:pointer;}
+  .seg button + button{border-left:3px solid #000;}
+  .seg button.on{background:#000;color:#fff;}
 
-  footer{margin-top:auto;font-size:14px;color:var(--muted);text-align:center;padding-bottom:8px;}
+  .custom{margin-top:14px;}
+  .text-in{width:100%;font-size:26px;padding:12px;border:3px solid #000;border-radius:8px;background:#fff;font-family:inherit;}
+  .saved{font-size:22px;padding:12px 0 4px;}
+  .saved b{font-size:24px;}
 
-  @media (max-width:800px){
-    :root{--big:38px;--medium:24px;--small:16px;--pad:14px;}
-    .word-display{font-size:48px;}
+  /* Botones principales */
+  .btn{display:block;width:100%;padding:20px 12px;margin-top:14px;font-size:27px;font-weight:bold;
+    border:3px solid #000;border-radius:12px;background:#fff;text-align:center;cursor:pointer;}
+  .btn.primary{background:#000;color:#fff;}
+  .btn.small{padding:12px;font-size:21px;margin-top:10px;}
+  .btn:disabled{border-style:dashed;color:#888;background:#fff;}
+  .error{font-size:19px;font-weight:bold;margin-top:8px;display:none;}
+
+  /* Pantalla de jugador */
+  .counter{text-align:center;font-size:20px;letter-spacing:2px;text-transform:uppercase;}
+  .player-name{text-align:center;font-size:54px;font-weight:bold;margin:6px 0 16px;}
+  .reveal-box{border:4px solid #000;border-radius:14px;min-height:240px;padding:24px 14px;text-align:center;display:table;width:100%;}
+  .reveal-inner{display:table-cell;vertical-align:middle;}
+  .reveal-label{font-size:21px;margin-bottom:10px;}
+  .reveal-word{font-size:58px;font-weight:bold;word-wrap:break-word;line-height:1.1;}
+  .reveal-box.impostor{background:#000;color:#fff;}
+  .instr{font-size:22px;line-height:1.4;}
+
+  /* Pantalla final */
+  .big{font-size:40px;font-weight:bold;text-align:center;margin:10px 0;}
+  .result{border:3px solid #000;border-radius:10px;padding:16px;text-align:center;margin-top:16px;display:none;}
+  .result .reveal-word{font-size:44px;}
+
+  footer{margin-top:28px;text-align:center;font-size:15px;color:#444;}
+
+  @media (max-width:520px){
+    .title{font-size:30px;}
+    .player-name{font-size:44px;}
+    .reveal-word{font-size:46px;}
+    .step-btn{width:64px;height:64px;}
   }
 </style>
 </head>
 <body>
-<div class="wrap" id="app">
+<div class="wrap">
   <header>
-    <h1>Juego Impostor</h1>
-    <div class="muted" id="state-info">v1 • Alex</div>
+    <div class="title" id="t-title">Impostor</div>
+    <div class="lang">
+      <button id="lang-es" type="button">ES</button><button id="lang-en" type="button">EN</button>
+    </div>
   </header>
 
-  <!-- CONFIG -->
-  <section id="screen-config" class="card">
-    <div style="display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap">
-      <div style="flex:1;min-width:180px">
-        <label for="players">Jugadores (total)</label>
-        <input id="players" type="number" min="3" max="20" value="6" />
-      </div>
-
-      <div style="flex:1;min-width:160px">
-        <label for="impostors">Impostores</label>
-        <input id="impostors" type="number" min="1" max="5" value="1" />
-      </div>
-
-      <!-- NUEVO: botón para elegir palabra -->
-      <div style="flex:1;min-width:200px">
-        <label>Palabra</label>
-        <button id="btn-choose-word" class="control">Elige tu palabra</button>
+  <!-- CONFIGURACIÓN -->
+  <section id="screen-config" class="screen">
+    <div class="block">
+      <div class="block-title" data-t="players">Jugadores</div>
+      <div class="stepper">
+        <div style="width:74px"><button class="step-btn" id="pl-minus" type="button">&minus;</button></div>
+        <div class="step-val" id="pl-val">6</div>
+        <div style="width:74px"><button class="step-btn" id="pl-plus" type="button">+</button></div>
       </div>
     </div>
 
-    <div style="height:12px"></div>
-
-    <div class="controls">
-      <button id="btn-save" class="control">Empezar juego</button>
-      <button id="btn-reset" class="control">Reset roles</button>
+    <div class="block">
+      <div class="block-title" data-t="impostors">Impostores</div>
+      <div class="stepper">
+        <div style="width:74px"><button class="step-btn" id="im-minus" type="button">&minus;</button></div>
+        <div class="step-val" id="im-val">1</div>
+        <div style="width:74px"><button class="step-btn" id="im-plus" type="button">+</button></div>
+      </div>
     </div>
 
-    <div style="height:8px"></div>
-    <div class="muted">Si no eliges una palabra, se pondrá una al azar automáticamente.</div>
-  </section>
+    <div class="block">
+      <div class="block-title" data-t="word">Palabra secreta</div>
+      <div class="seg">
+        <button id="mode-random" type="button" data-t="random">Aleatoria</button><button id="mode-custom" type="button" data-t="custom">Elegir palabra</button>
+      </div>
 
-  <!-- PLAYER VIEW -->
-  <section id="screen-player" class="card" style="display:none;flex-direction:column;justify-content:center;align-items:center;">
-    <div class="big-center" id="player-title">Jugador 1</div>
-    <div class="word-display" id="word-box"> — </div>
+      <div class="custom" id="custom-edit" style="display:none">
+        <input class="text-in" id="word-input" type="text" maxlength="40" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+        <button class="btn small primary" id="word-save" type="button" data-t="saveWord">Guardar palabra</button>
+        <div class="error" id="word-error" data-t="emptyWord">Escribe una palabra primero.</div>
+      </div>
 
-    <div style="width:100%;">
-      <button id="btn-reveal" class="btn">Revelar palabra</button>
-      <div style="height:10px"></div>
-      <button id="btn-next" class="btn" style="background:#000;color:#fff;">Pasarlo al siguiente</button>
+      <div class="custom" id="custom-saved" style="display:none">
+        <div class="saved"><span data-t="wordSaved">Palabra guardada</span> &#10003; <b>&bull;&bull;&bull;&bull;&bull;</b></div>
+        <button class="btn small" id="word-change" type="button" data-t="changeWord">Cambiar palabra</button>
+      </div>
+
+      <div class="hint" id="word-hint"></div>
     </div>
 
-    <div style="height:8px"></div>
-    <div class="muted">Enter / Espacio = Revelar, N = Siguiente</div>
+    <button class="btn primary" id="btn-start" type="button" data-t="start">Empezar partida</button>
+    <div class="error" id="start-error" data-t="needWord">Guarda tu palabra o elige «Aleatoria».</div>
   </section>
 
-  <!-- END SCREEN -->
-  <section id="screen-end" class="card" style="display:none;text-align:center;">
-    <div class="big-center">¡Todos han visto su rol!</div>
-    <div style="height:12px"></div>
-    <button id="btn-restart" class="btn">Volver a configurar</button>
+  <!-- JUGADOR -->
+  <section id="screen-player" class="screen">
+    <div class="counter" id="p-counter"></div>
+    <div class="player-name" id="p-name"></div>
+
+    <div class="reveal-box" id="p-box">
+      <div class="reveal-inner">
+        <div id="p-hidden" class="instr"></div>
+        <div id="p-shown" style="display:none">
+          <div class="reveal-label" id="p-label"></div>
+          <div class="reveal-word" id="p-word"></div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn primary" id="btn-reveal" type="button" data-t="reveal">Ver mi palabra</button>
+    <button class="btn" id="btn-next" type="button" style="display:none"></button>
+    <div class="hint" style="text-align:center" data-t="keys">Enter / Espacio = ver · N = siguiente</div>
   </section>
 
-  <footer>
-    Diseñado para Kindle (experimental browser)
-  </footer>
+  <!-- FINAL -->
+  <section id="screen-end" class="screen">
+    <div class="block" style="text-align:center">
+      <div class="instr" data-t="allSeen">¡Todos han visto su rol!</div>
+      <div class="instr" style="margin-top:14px" data-t="starts">Empieza a hablar:</div>
+      <div class="big" id="starter"></div>
+    </div>
+
+    <button class="btn" id="btn-show" type="button" data-t="showResult">Revelar impostor</button>
+    <div class="result" id="result">
+      <div class="reveal-label" data-t="theWord">La palabra era</div>
+      <div class="reveal-word" id="r-word"></div>
+      <div class="reveal-label" style="margin-top:16px" id="r-imp-label"></div>
+      <div class="reveal-word" id="r-imps"></div>
+    </div>
+
+    <button class="btn primary" id="btn-again" type="button" data-t="again">Otra ronda</button>
+    <button class="btn" id="btn-setup" type="button" data-t="setup">Volver a configurar</button>
+  </section>
+
+  <footer data-t="footer">Diseñado para Kindle</footer>
 </div>
 
 <script>
+/* ES5 a propósito: el navegador del Kindle puede ser antiguo. */
 (function(){
-  const el = id => document.getElementById(id);
+  function el(id){ return document.getElementById(id); }
 
-  const screenConfig = el('screen-config');
-  const screenPlayer = el('screen-player');
-  const screenEnd = el('screen-end');
+  var TEXT = {
+    es: {
+      title: "Impostor",
+      players: "Jugadores", impostors: "Impostores", word: "Palabra secreta",
+      random: "Aleatoria", custom: "Elegir palabra",
+      placeholder: "Escribe la palabra…",
+      saveWord: "Guardar palabra", emptyWord: "Escribe una palabra primero.",
+      wordSaved: "Palabra guardada", changeWord: "Cambiar palabra",
+      hintRandom: "Se elegirá una palabra al azar en cada ronda.",
+      hintCustom: "Escríbela sin que nadie mire. No se mostrará hasta el final.",
+      start: "Empezar partida", needWord: "Guarda tu palabra o elige «Aleatoria».",
+      player: "Jugador", of: "de",
+      passTo: "Pasa el Kindle a", tapToSee: "Asegúrate de que nadie mira y pulsa el botón.",
+      reveal: "Ver mi palabra",
+      yourWord: "Tu palabra es", youAre: "Eres el",
+      impostor: "IMPOSTOR", impostorHint: "Disimula y averigua la palabra.",
+      hideNext: "Ocultar y pasar al siguiente", hideEnd: "Ocultar y terminar",
+      keys: "Enter / Espacio = ver · N = siguiente",
+      allSeen: "¡Todos han visto su rol!", starts: "Empieza a hablar:",
+      showResult: "Revelar impostor", theWord: "La palabra era",
+      impWas: "El impostor era", impsWere: "Los impostores eran",
+      again: "Otra ronda", setup: "Volver a configurar",
+      footer: "Diseñado para Kindle",
+      words: ["Pizza","Gato","Robot","Montaña","Coche","Fútbol","Llave","Agua","Teléfono","Chocolate",
+              "Árbol","Perro","Sombrero","Casa","Libro","Estrella","Zapato","Ordenador","Playa","Camisa",
+              "Hospital","Avión","Guitarra","Helado","Biblioteca","Dinosaurio","Paraguas","Volcán","Castillo","Piscina",
+              "Dentista","Cumpleaños","Pirata","Tren","Supermercado","Fantasma","Bicicleta","Cine","Pingüino","Nieve",
+              "Reloj","Cocina","Selva","Astronauta","Mago","Boda","Museo","Tiburón","Abuela","Hamburguesa"]
+    },
+    en: {
+      title: "Impostor",
+      players: "Players", impostors: "Impostors", word: "Secret word",
+      random: "Random", custom: "Choose word",
+      placeholder: "Type the word…",
+      saveWord: "Save word", emptyWord: "Type a word first.",
+      wordSaved: "Word saved", changeWord: "Change word",
+      hintRandom: "A random word will be picked each round.",
+      hintCustom: "Type it without anyone looking. It stays hidden until the end.",
+      start: "Start game", needWord: "Save your word or pick “Random”.",
+      player: "Player", of: "of",
+      passTo: "Pass the Kindle to", tapToSee: "Make sure nobody is looking, then tap the button.",
+      reveal: "Show my word",
+      yourWord: "Your word is", youAre: "You are the",
+      impostor: "IMPOSTOR", impostorHint: "Blend in and figure out the word.",
+      hideNext: "Hide and pass to next", hideEnd: "Hide and finish",
+      keys: "Enter / Space = show · N = next",
+      allSeen: "Everyone has seen their role!", starts: "First to speak:",
+      showResult: "Reveal impostor", theWord: "The word was",
+      impWas: "The impostor was", impsWere: "The impostors were",
+      again: "Another round", setup: "Back to setup",
+      footer: "Designed for Kindle",
+      words: ["Pizza","Cat","Robot","Mountain","Car","Football","Key","Water","Phone","Chocolate",
+              "Tree","Dog","Hat","House","Book","Star","Shoe","Computer","Beach","Shirt",
+              "Hospital","Airplane","Guitar","Ice cream","Library","Dinosaur","Umbrella","Volcano","Castle","Swimming pool",
+              "Dentist","Birthday","Pirate","Train","Supermarket","Ghost","Bicycle","Cinema","Penguin","Snow",
+              "Clock","Kitchen","Jungle","Astronaut","Wizard","Wedding","Museum","Shark","Grandma","Burger"]
+    }
+  };
 
-  const inpPlayers = el('players');
-  const inpImpostors = el('impostors');
+  var state = {
+    lang: "es",
+    players: 6,
+    impostors: 1,
+    mode: "random",      // "random" | "custom"
+    customWord: null,
+    editing: false,
+    word: null,
+    roles: [],
+    current: 0,
+    revealed: false,
+    lastWord: null
+  };
 
-  const btnChooseWord = el('btn-choose-word');
-  const btnSave = el('btn-save');
-  const btnReset = el('btn-reset');
-  const btnReveal = el('btn-reveal');
-  const btnNext = el('btn-next');
-  const btnRestart = el('btn-restart');
+  try { var saved = window.localStorage && localStorage.getItem("impostor-lang"); if(saved === "en" || saved === "es") state.lang = saved; } catch(e){}
 
-  const playerTitle = el('player-title');
-  const wordBox = el('word-box');
+  function t(k){ return TEXT[state.lang][k]; }
 
-  let players = 6;
-  let impostors = 1;
-  let secretWord = null;
-  let roles = [];
-  let current = 0;
-  let revealed = false;
-
-  const sampleWords = [
-    "Pizza","Gato","Robot","Montaña","Coche","Futbol","Llave","Agua",
-    "Teléfono","Chocolate","Árbol","Perro","Sombrero","Casa","Libro",
-    "Estrella","Zapato","Ordenador","Playa","Camisa"
-  ];
-
-  function show(elm){
-    screenConfig.style.display = 'none';
-    screenPlayer.style.display = 'none';
-    screenEnd.style.display = 'none';
-    elm.style.display = '';
+  /* ---------- Pantallas ---------- */
+  var screens = ["screen-config","screen-player","screen-end"];
+  function show(id){
+    for(var i=0;i<screens.length;i++){
+      el(screens[i]).className = "screen" + (screens[i] === id ? " active" : "");
+    }
     window.scrollTo(0,0);
   }
+  function visible(id){ return el(id).className.indexOf("active") !== -1; }
 
-  function clampConfig(){
-    players = Math.max(3, Math.min(20, parseInt(inpPlayers.value || 3,10)));
-    inpPlayers.value = players;
-
-    impostors = Math.max(1, Math.min(players-1, parseInt(inpImpostors.value || 1,10)));
-    inpImpostors.value = impostors;
-
-    // si NO eligió palabra → palabra aleatoria
-    if(!secretWord){
-      secretWord = sampleWords[Math.floor(Math.random()*sampleWords.length)];
+  /* ---------- Idioma ---------- */
+  function applyLang(){
+    document.documentElement.lang = state.lang;
+    document.title = t("title");
+    el("t-title").textContent = t("title");
+    var nodes = document.querySelectorAll("[data-t]");
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].textContent = t(nodes[i].getAttribute("data-t"));
     }
+    el("word-input").setAttribute("placeholder", t("placeholder"));
+    el("lang-es").className = state.lang === "es" ? "on" : "";
+    el("lang-en").className = state.lang === "en" ? "on" : "";
+    renderConfig();
+    if(visible("screen-player")) renderPlayer();
+    if(visible("screen-end")) renderEnd();
+  }
+  function setLang(l){
+    state.lang = l;
+    try { localStorage.setItem("impostor-lang", l); } catch(e){}
+    applyLang();
   }
 
-  function assignRoles(){
-    roles = new Array(players).fill(false);
-    const picked = new Set();
-    while(picked.size < impostors){
-      picked.add(Math.floor(Math.random()*players));
-    }
-    picked.forEach(i => roles[i] = true);
+  /* ---------- Configuración ---------- */
+  function maxImpostors(){ return Math.max(1, Math.floor((state.players - 1) / 2)); }
+
+  function renderConfig(){
+    if(state.impostors > maxImpostors()) state.impostors = maxImpostors();
+    el("pl-val").textContent = state.players;
+    el("im-val").textContent = state.impostors;
+    el("pl-minus").disabled = state.players <= 3;
+    el("pl-plus").disabled = state.players >= 20;
+    el("im-minus").disabled = state.impostors <= 1;
+    el("im-plus").disabled = state.impostors >= maxImpostors();
+
+    var custom = state.mode === "custom";
+    el("mode-random").className = custom ? "" : "on";
+    el("mode-custom").className = custom ? "on" : "";
+    el("custom-edit").style.display = (custom && (state.editing || !state.customWord)) ? "block" : "none";
+    el("custom-saved").style.display = (custom && !state.editing && state.customWord) ? "block" : "none";
+    el("word-hint").textContent = custom ? t("hintCustom") : t("hintRandom");
+  }
+
+  function hideErrors(){ el("word-error").style.display = "none"; el("start-error").style.display = "none"; }
+
+  function saveCustomWord(){
+    var w = (el("word-input").value || "").replace(/^\s+|\s+$/g, "");
+    if(!w){ el("word-error").style.display = "block"; return false; }
+    state.customWord = w;
+    state.editing = false;
+    el("word-input").value = "";
+    el("word-input").blur();
+    hideErrors();
+    renderConfig();
+    return true;
+  }
+
+  /* ---------- Partida ---------- */
+  function pickRandomWord(){
+    var list = TEXT[state.lang].words, w;
+    do { w = list[Math.floor(Math.random()*list.length)]; } while(list.length > 1 && w === state.lastWord);
+    state.lastWord = w;
+    return w;
   }
 
   function startGame(){
-    clampConfig();
-    assignRoles();
-    current = 0;
-    revealed = false;
-    updatePlayerView();
-    show(screenPlayer);
-  }
-
-  function updatePlayerView(){
-    playerTitle.textContent = `Jugador ${current+1}`;
-    wordBox.textContent = "—";
-    revealed = false;
-    btnReveal.disabled = false;
-    btnNext.disabled = true;
-  }
-
-  function revealRole(){
-    if(revealed) return;
-    revealed = true;
-
-    if(roles[current]){
-      wordBox.textContent = "IMPOSTOR ❌";
+    hideErrors();
+    if(state.mode === "custom"){
+      if(state.editing || !state.customWord){
+        // Si hay texto escrito sin guardar, lo guardamos automáticamente
+        if(el("word-input").value && saveCustomWord()){ /* ok */ }
+        else { el("start-error").style.display = "block"; return; }
+      }
+      state.word = state.customWord;
     } else {
-      wordBox.textContent = secretWord;
+      state.word = pickRandomWord();
     }
 
-    btnReveal.disabled = true;
-    btnNext.disabled = false;
-    btnNext.focus();
+    state.roles = [];
+    for(var i=0;i<state.players;i++) state.roles.push(false);
+    var placed = 0;
+    while(placed < state.impostors){
+      var r = Math.floor(Math.random()*state.players);
+      if(!state.roles[r]){ state.roles[r] = true; placed++; }
+    }
+    state.current = 0;
+    state.revealed = false;
+    renderPlayer();
+    show("screen-player");
   }
 
-  function nextPlayer(){
-    if(!revealed) return;
-    current++;
-    if(current >= players){
-      show(screenEnd);
+  function renderPlayer(){
+    var n = state.current + 1;
+    el("p-counter").textContent = t("player") + " " + n + " " + t("of") + " " + state.players;
+    el("p-name").textContent = t("player") + " " + n;
+
+    var box = el("p-box");
+    if(!state.revealed){
+      box.className = "reveal-box";
+      el("p-hidden").style.display = "block";
+      el("p-shown").style.display = "none";
+      el("p-hidden").innerHTML = "";
+      var a = document.createElement("div");
+      a.textContent = t("passTo") + " " + t("player").toLowerCase() + " " + n + ".";
+      a.style.fontWeight = "bold";
+      var b = document.createElement("div");
+      b.textContent = t("tapToSee");
+      b.style.marginTop = "10px";
+      el("p-hidden").appendChild(a);
+      el("p-hidden").appendChild(b);
+      el("btn-reveal").style.display = "block";
+      el("btn-next").style.display = "none";
     } else {
-      updatePlayerView();
+      var imp = state.roles[state.current];
+      box.className = "reveal-box" + (imp ? " impostor" : "");
+      el("p-hidden").style.display = "none";
+      el("p-shown").style.display = "block";
+      el("p-label").textContent = imp ? t("youAre") : t("yourWord");
+      el("p-word").textContent = imp ? t("impostor") : state.word;
+      if(imp){
+        var h = document.createElement("div");
+        h.className = "reveal-label";
+        h.style.marginTop = "12px";
+        h.textContent = t("impostorHint");
+        el("p-word").appendChild(h);
+      }
+      el("btn-reveal").style.display = "none";
+      el("btn-next").style.display = "block";
+      el("btn-next").textContent = (state.current + 1 >= state.players) ? t("hideEnd") : t("hideNext");
     }
   }
 
-  btnChooseWord.addEventListener("click", ()=>{
-    const w = prompt("Escribe tu palabra secreta:");
-    if(w && w.trim().length > 0){
-      secretWord = w.trim();
-      btnChooseWord.textContent = "Palabra elegida ✔";
+  function reveal(){
+    if(state.revealed) return;
+    state.revealed = true;
+    renderPlayer();
+  }
+
+  function next(){
+    if(!state.revealed) return;
+    state.current++;
+    state.revealed = false;
+    if(state.current >= state.players){
+      state.starter = Math.floor(Math.random()*state.players) + 1;
+      el("result").style.display = "none";
+      el("btn-show").style.display = "block";
+      renderEnd();
+      show("screen-end");
+    } else {
+      renderPlayer();
     }
+  }
+
+  function renderEnd(){
+    el("starter").textContent = t("player") + " " + state.starter;
+    el("r-word").textContent = state.word;
+    var list = [];
+    for(var i=0;i<state.roles.length;i++) if(state.roles[i]) list.push(t("player") + " " + (i+1));
+    el("r-imp-label").textContent = list.length > 1 ? t("impsWere") : t("impWas");
+    el("r-imps").textContent = list.join(", ");
+  }
+
+  /* ---------- Eventos ---------- */
+  function on(id, fn){ el(id).onclick = fn; }
+
+  on("lang-es", function(){ setLang("es"); });
+  on("lang-en", function(){ setLang("en"); });
+
+  on("pl-minus", function(){ if(state.players > 3){ state.players--; renderConfig(); } });
+  on("pl-plus",  function(){ if(state.players < 20){ state.players++; renderConfig(); } });
+  on("im-minus", function(){ if(state.impostors > 1){ state.impostors--; renderConfig(); } });
+  on("im-plus",  function(){ if(state.impostors < maxImpostors()){ state.impostors++; renderConfig(); } });
+
+  on("mode-random", function(){ state.mode = "random"; hideErrors(); renderConfig(); });
+  on("mode-custom", function(){
+    state.mode = "custom"; hideErrors(); renderConfig();
+    if(!state.customWord){ try { el("word-input").focus(); } catch(e){} }
+  });
+  on("word-save", saveCustomWord);
+  on("word-change", function(){
+    state.editing = true; renderConfig();
+    try { el("word-input").focus(); } catch(e){}
   });
 
-  btnSave.addEventListener('click', startGame);
-
-  btnReset.addEventListener('click', ()=>{
-    assignRoles();
-    alert('Roles reiniciados (nuevos impostores aleatorios).');
+  on("btn-start", startGame);
+  on("btn-reveal", reveal);
+  on("btn-next", next);
+  on("btn-show", function(){ el("result").style.display = "block"; el("btn-show").style.display = "none"; });
+  on("btn-again", function(){
+    // Con palabra propia hay que escribir una nueva para la siguiente ronda
+    if(state.mode === "custom"){ state.customWord = null; state.editing = true; renderConfig(); show("screen-config"); return; }
+    startGame();
   });
+  on("btn-setup", function(){ renderConfig(); show("screen-config"); });
 
-  btnReveal.addEventListener('click', revealRole);
-  btnNext.addEventListener('click', nextPlayer);
-  btnRestart.addEventListener('click', ()=>{
-    secretWord = null;
-    btnChooseWord.textContent = "Elige tu palabra";
-    show(screenConfig);
-  });
+  el("word-input").onkeydown = function(e){
+    e = e || window.event;
+    if(e.keyCode === 13){ if(e.preventDefault) e.preventDefault(); saveCustomWord(); }
+  };
 
-  document.addEventListener('keydown', e=>{
-    const tag = (document.activeElement || {}).tagName || '';
+  document.onkeydown = function(e){
+    e = e || window.event;
+    var tag = (document.activeElement && document.activeElement.tagName) || "";
+    if(tag === "INPUT") return;
+    if(!visible("screen-player")) return;
+    var k = e.keyCode;
+    if(k === 13 || k === 32){
+      if(e.preventDefault) e.preventDefault();
+      if(state.revealed) next(); else reveal();
+    } else if(k === 78){ next(); }
+  };
 
-    if(tag === 'INPUT' && e.key === 'Enter' && screenConfig.style.display !== 'none'){
-      e.preventDefault();
-      btnSave.click();
-      return;
-    }
-
-    if(screenPlayer.style.display === 'none') return;
-
-    if(e.key === 'Enter' || e.key === ' '){
-      revealRole();
-    } else if(e.key.toLowerCase() === 'n'){
-      nextPlayer();
-    }
-  });
-
-  show(screenConfig);
+  applyLang();
+  show("screen-config");
 })();
 </script>
 </body>
